@@ -5,11 +5,15 @@ const INITIAL_HEIGHT = 300, INITIAL_WIDTH = 300;
 
 const filesLoaded = () => classes_loaded;
 
-function startGame() {
+/*
+ * Because of the scope imposed by modules we have to explicitly 
+ * expose parts of it to the window object
+ */
+window.startGame = function(){
     MainLoop.start();
 }
 
-function stopGame() {
+window.stopGame = function() {
     MainLoop.stop();
 }
 
@@ -26,7 +30,7 @@ document.onreadystatechange = function () {
             const snake = new Snake(50, 50, gameStage.context);
 
             // --------- MAIN LOOP FUNCTIONS
-      
+
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
                 gameStage.clear();
