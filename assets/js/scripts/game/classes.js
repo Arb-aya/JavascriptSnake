@@ -30,7 +30,7 @@ export class GameStage {
     }
 
     get context() {
-        return this._canvas.context;
+        return this._context;
     }
 
     /*
@@ -41,6 +41,7 @@ export class GameStage {
     set context(context) {}
     set width(width) {}
     set height(height){}
+
 }
 
 

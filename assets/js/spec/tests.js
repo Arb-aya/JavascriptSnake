@@ -8,15 +8,17 @@ describe("GameStage class", function () {
         expect(document.getElementById("gameCanvas")).not.toEqual(null);
     });
 
-    describe("Getters and Setters", function () {
-        it("Should return width", function () {
+    describe("Getters", function () {
+        it("Should get the width of the canvas", function () {
             expect(game.width).toBe(INITIAL_WIDTH);
         });
 
-        it("Should set width", function(){
-            let newWidth = 200;
-            game.width = newWidth;
-            expect(game.width).toBe(newWidth);
+        it("Should get the height of the canvas", function(){
+            expect(game.height).toBe(INITIAL_HEIGHT);
+        });  
+
+        it("Should get CanvasRenderingContext2D from the canvas", function(){
+            expect(game.context).not.toEqual(null);
         });
     });
 
