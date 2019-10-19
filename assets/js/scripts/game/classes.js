@@ -11,6 +11,7 @@ export class GameStage {
     constructor(width, height) {
         //Create and insert canvas to index.html
         this._canvas = document.createElement("canvas");
+        this._canvas.setAttribute('id','gameCanvas');
         this._canvas.height = height;
         this._canvas.width = width;
         document.getElementById("gameStage").appendChild(this._canvas);
@@ -24,27 +25,22 @@ export class GameStage {
         return this._canvas.width;
     }
 
-    set width(width) {
-        this._canvas.width = width;
-    }
-
     get height() {
         return this._canvas.height;
-    }
-
-    set height(height) {
-        this._canvas.height = height;
     }
 
     get context() {
         return this._canvas.context;
     }
 
-
-    //Empty function to prevent reassigning the context object
-    set context(context) {
-
-    }
+    /*
+     * Setters are empty to allow the use of getters. 
+     * To dynamically change the size of the canvas would
+     * require more functionality than this.
+     */
+    set context(context) {}
+    set width(width) {}
+    set height(height){}
 }
 
 
