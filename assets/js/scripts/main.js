@@ -1,22 +1,49 @@
-import loaded, {GameStage} from './game/classes.js';
+import classes_loaded, { GameStage, Snake } from './game/classes.js';
 
-//----------------------------- GLOBAL CONSTANTS 
+//----------------------------- GLOBAL CONSTANTS / FUNCTIONS
 const INITIAL_HEIGHT = 300, INITIAL_WIDTH = 300;
+
+const filesLoaded = () => classes_loaded;
+
+function startGame() {
+    MainLoop.start();
+}
+
+function stopGame() {
+    MainLoop.stop();
+}
 
 /*
  * When the DOM has been created and it is safe to interact
  * with, programatically create a canvas element and add it as 
  * a child of the div "gameStage"
  */
+
 document.onreadystatechange = function () {
     if (document.readyState === "complete") {
-        if(loaded)
-        {
+        if (filesLoaded) {
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
+            const snake = new Snake(50, 50, gameStage.context);
+
+            // --------- MAIN LOOP FUNCTIONS
+      
+            //Run at beginning of frame. Process input.
+            MainLoop.setBegin(function () {
+                gameStage.clear();
+            });
+
+            //Physics / AI movements, etc
+            MainLoop.setUpdate(function () {
+
+            });
+
+            //Draw canvas elements
+            MainLoop.setDraw(function () {
+                snake.draw();
+            });
         }
-        else
-        {
-            console.log("Error loading games/classes.js");
+        else {
+            console.log("Error loading files");
         }
     }
 }
