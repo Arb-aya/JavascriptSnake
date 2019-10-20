@@ -1,5 +1,5 @@
- const classes_loaded = true;
- 
+const classes_loaded = true;
+
 export default classes_loaded;
 
 /*
@@ -11,7 +11,7 @@ export class GameStage {
     constructor(width, height) {
         //Create and insert canvas to index.html
         this._canvas = document.createElement("canvas");
-        this._canvas.setAttribute('id','gameCanvas');
+        this._canvas.setAttribute('id', 'gameCanvas');
         this._canvas.height = height;
         this._canvas.width = width;
         document.getElementById("gameStage").appendChild(this._canvas);
@@ -22,9 +22,8 @@ export class GameStage {
 
     //Methods
 
-    clear()
-    {
-        this._context.clearRect(0,0, this._canvas.width, this._canvas.height);
+    clear() {
+        this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
     }
 
     //Getters and setters
@@ -45,17 +44,17 @@ export class GameStage {
      * To dynamically change the size of the canvas would
      * require more functionality than this.
      */
-    set context(context) {}
-    set width(width) {}
-    set height(height){}
+    set context(context) { }
+    set width(width) { }
+    set height(height) { }
 
 }
 
 
 
 
-export class Snake{
-    constructor(x, y, context, height = 10, width = 10, colour = "red"){
+export class Snake {
+    constructor(x, y, context, colour = "red", height = 10, width = 10) {
         this._x = x;
         this._y = y;
 
@@ -67,40 +66,50 @@ export class Snake{
         this._context = context;
     }
 
-    draw(){
+    draw() {
         this._context.fillStyle = this._colour;
         this._context.fillRect(this._x, this._y, this._width, this._height);
     }
 
     // Getters and Setters
-    get x()
-    {
+    get x() {
         return this._x;
     }
 
-    set x(x)
-    {
+    set x(x) {
         this._x = x;
     }
 
-    get y()
-    {
+    get y() {
         return this._y;
     }
 
-    set y(y)
-    {
+    set y(y) {
         this._y = y;
     }
 
-    get colour()
-    {
+    get colour() {
         return this._colour;
     }
 
-    set colour(colour)
-    {
+    set colour(colour) {
         this._colour = colour;
+    }
+
+    get height() {
+        return this._height;
+    }
+
+    set height(height) {
+        this._height = height;
+    }
+
+    get width() {
+        return this._width;
+    }
+
+    set width(width) {
+        this._width = width;
     }
 }
 
