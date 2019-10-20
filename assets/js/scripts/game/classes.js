@@ -52,13 +52,15 @@ export class GameStage {
 }
 
 
+
+
 export class Snake{
-    constructor(x, y, context, colour = "red"){
+    constructor(x, y, context, height = 10, width = 10, colour = "red"){
         this._x = x;
         this._y = y;
 
-        this._height = 10;
-        this._width = 10;
+        this._height = height;
+        this._width = width;;
 
         this._colour = colour;
 
@@ -89,6 +91,16 @@ export class Snake{
     set y(y)
     {
         this._y = y;
+    }
+
+    get colour()
+    {
+        return this._colour;
+    }
+
+    set colour(colour)
+    {
+        this._colour = colour;
     }
 }
 
