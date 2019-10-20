@@ -3,7 +3,7 @@ import input_loaded, { KeyMappings } from "../scripts/controllers/input.js";
 
 
 // --------------------------------------- GameStage Tests
-xdescribe("GameStage class", function () {
+describe("GameStage class", function () {
     const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
     const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -29,7 +29,7 @@ xdescribe("GameStage class", function () {
 
 // --------------------------------------- Snake Tests
 
-xdescribe("Snake class", function () {
+describe("Snake class", function () {
     /*
      * Define values needed for tests to avoid the use of
      * magic numbers. Also allows for more flexible use of 
@@ -173,6 +173,14 @@ describe("KeyMappings class", function () {
 
 
     describe("Constructor Defaults", function () {
+
+        beforeEach(function(){
+            defaultKeys.up = 38;
+            defaultKeys.down = 40;
+            defaultKeys.left = 37;
+            defaultKeys.right = 39;
+        });
+
         it("Should have the default up key of 38", function () {
             expect(defaultKeys.up).toBe(38);
         });
@@ -235,6 +243,24 @@ describe("KeyMappings class", function () {
         it(`Should be able to set right key to ${OVR_RIGHT}`,function(){
             defaultKeys.right = OVR_RIGHT;
             expect(defaultKeys.right).toBe(OVR_RIGHT);
+        });
+    });
+
+    describe("getDirection method", function(){
+        it("Should return \"UP\" when passed keycode mapped to \"up\" property", function(){
+            expect(defaultKeys.getDirection(38)).toBe("UP");
+        });
+
+        it("Should return \"DOWN\" when passed keycode mapped to \"down\" property", function(){
+            expect(defaultKeys.getDirection(40)).toBe("DOWN");
+        });
+
+        it("Should return \"LEFT\" when passed keycode mapped to \"left\" property", function(){
+            expect(defaultKeys.getDirection(37)).toBe("LEFT");
+        });
+
+        it("Should return \"RIGHT\" when passed keycode mapped to \"right\" property", function(){
+            expect(defaultKeys.getDirection(39)).toBe("RIGHT");
         });
     });
 
