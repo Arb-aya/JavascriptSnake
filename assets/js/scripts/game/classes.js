@@ -54,7 +54,7 @@ export class GameStage {
 
 
 export class Snake {
-    constructor(x, y, context, colour = "red", height = 10, width = 10) {
+    constructor(x, y, context, colour = "red", height = 10, width = 10, velocity = 0.1) {
         this._x = x;
         this._y = y;
 
@@ -64,12 +64,39 @@ export class Snake {
         this._colour = colour;
 
         this._context = context;
+
+        this._velocity = velocity;
     }
 
+    //Draw the snake on the Canvas that provides the context object
     draw() {
         this._context.fillStyle = this._colour;
         this._context.fillRect(this._x, this._y, this._width, this._height);
     }
+
+    move(direction,delta) {
+        switch (direction) {
+            case "UP":
+                this._y -= this._velocity * delta
+                break;
+
+            case "DOWN":
+                this._y += this._velocity * delta;
+                break;
+
+            case "LEFT":
+                this._x -= this._velocity * delta;
+                break;
+
+            case "RIGHT":
+                this._x += this._velocity * delta;
+                break;
+
+            default:
+                return false;
+        }
+    }
+
 
     // Getters and Setters
     get x() {
@@ -110,6 +137,14 @@ export class Snake {
 
     set width(width) {
         this._width = width;
+    }
+
+    get velocity() {
+        return this._velocity;
+    }
+
+    set velocity(velocity) {
+        this._velocity = velocity;
     }
 }
 
