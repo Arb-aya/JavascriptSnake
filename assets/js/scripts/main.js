@@ -1,19 +1,20 @@
 import classes_loaded, { GameStage, Snake } from './game/classes.js';
+import input_loaded, { KeyMappings } from './controllers/input.js';
 
 //----------------------------- GLOBAL CONSTANTS / FUNCTIONS
 const INITIAL_HEIGHT = 300, INITIAL_WIDTH = 300;
+const filesLoaded = () => classes_loaded && input_loaded;
 
-const filesLoaded = () => classes_loaded;
 
 /*
  * Because of the scope imposed by modules we have to explicitly 
  * expose parts of it to the window object
  */
-window.startGame = function(){
+window.startGame = function () {
     MainLoop.start();
 }
 
-window.stopGame = function() {
+window.stopGame = function () {
     MainLoop.stop();
 }
 
@@ -28,6 +29,15 @@ document.onreadystatechange = function () {
         if (filesLoaded) {
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
             const snake = new Snake(50, 50, gameStage.context);
+            const keys = new KeyMappings();
+
+            window.addEventListener("keydown", function (key) {
+                let dir = keys.getDirection(key.keyCode);
+                if (dir !== false) {
+                    console.log(dir);
+                    snake.direction = dir;
+                }
+            });
 
             // --------- MAIN LOOP FUNCTIONS
 
@@ -37,8 +47,8 @@ document.onreadystatechange = function () {
             });
 
             //Physics / AI movements, etc
-            MainLoop.setUpdate(function () {
-
+            MainLoop.setUpdate(function (delta) {
+                snake.move(delta);
             });
 
             //Draw canvas elements
