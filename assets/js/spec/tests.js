@@ -270,19 +270,19 @@ describe("KeyMappings class", function () {
 
     describe("getDirection method", function () {
         it("Should return \"UP\" when passed keycode mapped to \"up\" property", function () {
-            expect(defaultKeys.getDirection(38)).toBe("UP");
+            expect(defaultKeys.getDirection(defaultKeys.up)).toEqual("UP");
         });
 
         it("Should return \"DOWN\" when passed keycode mapped to \"down\" property", function () {
-            expect(defaultKeys.getDirection(40)).toBe("DOWN");
+            expect(defaultKeys.getDirection(defaultKeys.down)).toBe("DOWN");
         });
 
         it("Should return \"LEFT\" when passed keycode mapped to \"left\" property", function () {
-            expect(defaultKeys.getDirection(37)).toBe("LEFT");
+            expect(defaultKeys.getDirection(defaultKeys.left)).toBe("LEFT");
         });
 
         it("Should return \"RIGHT\" when passed keycode mapped to \"right\" property", function () {
-            expect(defaultKeys.getDirection(39)).toBe("RIGHT");
+            expect(defaultKeys.getDirection(defaultKeys.right)).toBe("RIGHT");
         });
     });
 });
