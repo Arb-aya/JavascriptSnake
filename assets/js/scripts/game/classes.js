@@ -61,26 +61,23 @@ export class GameStage {
     set height(height) { }
 }
 
-
-
 /**
- * Class to contain all information and functionality
- * required for the player.
+ * Abstract SnakePart that contains common functionality for both
+ * the SnakeBody and SnakeHead.
  */
-export class Snake {
+export class SnakePart {
     /**
-     * Snake Constructor
+     * SnakePart Constructor
      * @param   {number} x                          X location on the canvas.
      * @param   {number} y                          Y location on the canvas.
      * @param   {CanvasRenderingContext2D} context  Context from the canvas.
-     * @param   {string} [colour = "red"]           Colour the snake should be on the canvas.
-     * @param   {string} [direction = "DOWN"]       Show which direction the snake is moving.  
-     * @param   {number} [height = 10]              Height snake should be drawn on the canvas.
-     * @param   {number} [width = 10]               Width snake should be drawn on the canvas.
-     * @param   {number} [velocity = 0.1]           Speed at which the snake moves on the canvas.   
+     * @param   {string} colour                     Colour the snake should be on the canvas.
+     * @param   {number} height                     Height snake should be drawn on the canvas.
+     * @param   {number} width                      Width snake should be drawn on the canvas.
      * 
      */
-    constructor(x, y, context, colour = "red", direction = "DOWN", height = 10, width = 10, velocity = 0.1) {
+
+    constructor(x, y, context, colour, height, width) {
         this._x = x;
         this._y = y;
 
@@ -90,18 +87,151 @@ export class Snake {
         this._colour = colour;
 
         this._context = context;
-        this._direction = direction;
 
-        this._velocity = velocity;
     }
 
     /**
-     * Draws the snake on the canvas using x, y, width,
+     * Draws the SnakeBodyPart on the canvas using x, y, width,
      * height and colour
      */
     draw() {
         this._context.fillStyle = this._colour;
         this._context.fillRect(this._x, this._y, this._width, this._height);
+    }
+
+    /**
+     * Get SnakeBodyPart's x position
+     */
+    get x() {
+        return this._x;
+    }
+
+    /**
+     * @param {number} x new x position for SnakeBodyPart
+     */
+    set x(x) {
+        this._x = x;
+    }
+
+    /**
+     * Get SnakeBodyPart's y position
+     */
+    get y() {
+        return this._y;
+    }
+
+    /**
+     * @param {number} y new y position for SnakeBodyPart
+     */
+    set y(y) {
+        this._y = y;
+    }
+
+    /**
+     * Get SnakeBodyPart's colour
+     */
+    get colour() {
+        return this._colour;
+    }
+
+    /**
+     * @param {string} colour new colour for SnakeBodyPart
+     */
+    set colour(colour) {
+        this._colour = colour;
+    }
+
+    /**
+     * Get SnakeBodyPart's height
+     */
+    get height() {
+        return this._height;
+    }
+
+    /**
+     * @param {number} height new height for SnakeBodyPart
+     */
+    set height(height) {
+        this._height = height;
+    }
+
+    /**
+     * Get SnakeBodyPart's width
+     */
+    get width() {
+        return this._width;
+    }
+
+    /**
+     * @param {number} width new width for SnakeBodyPart
+     */
+    set width(width) {
+        this._width = width;
+    }
+
+
+}
+
+/**
+ * Extends the functionality of SnakePart by
+ * keeping track of it's previous X and Y co-oridnates when
+ * its position is updated.
+ */
+export class SnakeBody extends SnakePart {
+
+    /**
+     * @see SnakeBodyPart
+     */
+    constructor(x, y, context, colour = "red", height = 10, width = 10) {
+        super(x, y, context, colour, height, width);
+    }
+    /**
+     * @param {number} x new x position for SnakeBodyPart
+     */
+    set x(x) {
+        this._prevX = this._x;
+        this._x = x;
+    }
+
+    /**
+     * @param {number} y new y position for SnakeBodyPart
+     */
+    set y(y) {
+        this._prevY = this._y;
+        this._y = y;
+    }
+
+    /**
+     * Get SnakeBodyPart's previous x position
+     */
+    get prevX() {
+        return this._oldX;
+    }
+
+    /**
+     * Get SnakeBodyPart's previous y position
+     */
+    get prevY() {
+        return this._oldY;
+    }
+}
+
+
+/**
+ * Class to contain all information and functionality
+ * required for the Head of the snake. This part of the snake
+ * dictates direction and velocity.
+ */
+export class SnakeHead extends SnakeBodyPart {
+    /**
+     * @see SnakeBodyPart
+     * @param   {string} [direction = "DOWN"]       Show which direction the snake is moving.  
+     * @param   {number} [velocity = 0.1]           Speed at which the snake moves on the canvas.   
+     */
+    constructor(x, y, context, colour = "red", height = 10, width = 10, direction = "DOWN", velocity = 0.1) {
+        super(x, y, context, colour, height, width);
+        this._direction = direction;
+        this._velocity = velocity;
     }
 
     /**
@@ -132,92 +262,6 @@ export class Snake {
         }
     }
 
-
-    /**
-     * Get snake's x position
-     */
-    get x() {
-        return this._x;
-    }
-
-    
-    /**
-     * @param {number} x new x position for snake
-     */
-    set x(x) {
-        this._x = x;
-    }
-
-    /**
-     * Get snake's y position
-     */
-    get y() {
-        return this._y;
-    }
-
-    /**
-     * @param {number} y new y position for snake
-     */
-    set y(y) {
-        this._y = y;
-    }
-
-    /**
-     * Get snake's colour
-     */
-    get colour() {
-        return this._colour;
-    }
-
-    /**
-     * @param {string} colour new colour for snake
-     */
-    set colour(colour) {
-        this._colour = colour;
-    }
-
-    /**
-     * Get snake's height
-     */
-    get height() {
-        return this._height;
-    }
-
-    /**
-     * @param {number} height new height for snake
-     */
-    set height(height) {
-        this._height = height;
-    }
-
-    /**
-     * Get snake's width
-     */
-    get width() {
-        return this._width;
-    }
-
-    /**
-     * @param {number} width new width for snake
-     */
-    set width(width) {
-        this._width = width;
-    }
-
-    /**
-     * Get snake's velocity
-     */
-    get velocity() {
-        return this._velocity;
-    }
-
-    /**
-     * @param {number} velocity new velocity for snake
-     */
-    set velocity(velocity) {
-        this._velocity = velocity;
-    }
-
     /**
      * @param {string} direction new direction for snake. Should be UP DOWN LEFT or RIGHT.
      */
@@ -232,6 +276,10 @@ export class Snake {
         return this._direction;
     }
 }
+
+
+
+
 
 
 
