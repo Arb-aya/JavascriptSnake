@@ -1,4 +1,4 @@
-import classes_loaded, { GameStage, Snake } from './game/classes.js';
+import classes_loaded, { GameStage, SnakeHead } from './game/classes.js';
 import input_loaded, { KeyMappings } from './controllers/input.js';
 
 //----------------------------- GLOBAL CONSTANTS / FUNCTIONS
@@ -18,6 +18,17 @@ window.stopGame = function () {
     MainLoop.stop();
 }
 
+window.toggleSettings = function() {
+    let settings = document.getElementById("settings");
+
+    if (settings.style.display === "block") {
+        settings.style.display = "none";
+    }
+    else {
+        settings.style.display = "block";
+    }
+}
+
 /*
  * When the DOM has been created and it is safe to interact
  * with, programatically create a canvas element and add it as 
@@ -28,13 +39,12 @@ document.onreadystatechange = function () {
     if (document.readyState === "complete") {
         if (filesLoaded) {
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
-            const snake = new Snake(50, 50, gameStage.context);
+            const snake = new SnakeHead(50, 50, gameStage.context);
             const keys = new KeyMappings();
 
             window.addEventListener("keydown", function (key) {
                 let dir = keys.getDirection(key.keyCode);
                 if (dir !== false) {
-                    console.log(dir);
                     snake.direction = dir;
                 }
             });
