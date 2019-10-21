@@ -184,13 +184,23 @@ export class SnakeBody extends SnakePart {
      */
     constructor(x, y, context, colour = "red", height = 10, width = 10) {
         super(x, y, context, colour, height, width);
+        this._prevX = x;
+        this._prevY = y;
+    }
+
+    get x() {
+        return super.x;
+    }
+
+    get y() {
+        return super.y;
     }
     /**
      * @param {number} x new x position for SnakeBodyPart
      */
     set x(x) {
         this._prevX = this._x;
-        this._x = x;
+        super.x = x;
     }
 
     /**
@@ -198,21 +208,21 @@ export class SnakeBody extends SnakePart {
      */
     set y(y) {
         this._prevY = this._y;
-        this._y = y;
+        super.y = y;
     }
 
     /**
      * Get SnakeBodyPart's previous x position
      */
     get prevX() {
-        return this._oldX;
+        return this._prevX;
     }
 
     /**
      * Get SnakeBodyPart's previous y position
      */
     get prevY() {
-        return this._oldY;
+        return this._prevY;
     }
 }
 
@@ -222,13 +232,13 @@ export class SnakeBody extends SnakePart {
  * required for the Head of the snake. This part of the snake
  * dictates direction and velocity.
  */
-export class SnakeHead extends SnakeBodyPart {
+export class SnakeHead extends SnakePart {
     /**
      * @see SnakeBodyPart
      * @param   {string} [direction = "DOWN"]       Show which direction the snake is moving.  
      * @param   {number} [velocity = 0.1]           Speed at which the snake moves on the canvas.   
      */
-    constructor(x, y, context, colour = "red", height = 10, width = 10, direction = "DOWN", velocity = 0.1) {
+    constructor(x, y, context, direction = "DOWN", velocity = 0.1, colour = "red", height = 10, width = 10) {
         super(x, y, context, colour, height, width);
         this._direction = direction;
         this._velocity = velocity;
