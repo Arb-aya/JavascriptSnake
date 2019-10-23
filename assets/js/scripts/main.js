@@ -1,4 +1,4 @@
-import classes_loaded, { GameStage, SnakeHead } from './game/classes.js';
+import classes_loaded, { GameStage, Snake } from './game/classes.js';
 import input_loaded, { KeyMappings } from './controllers/input.js';
 
 //----------------------------- GLOBAL CONSTANTS / FUNCTIONS
@@ -18,7 +18,7 @@ window.stopGame = function () {
     MainLoop.stop();
 }
 
-window.toggleSettings = function() {
+window.toggleSettings = function () {
     let settings = document.getElementById("settings");
 
     if (settings.style.display === "block") {
@@ -39,30 +39,36 @@ document.onreadystatechange = function () {
     if (document.readyState === "complete") {
         if (filesLoaded) {
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
-            const snake = new SnakeHead(50, 50, gameStage.context);
+            const snake = new Snake(200, 200, gameStage.context);
             const keys = new KeyMappings();
+            let dir = snake.getDirection();
+
+            MainLoop.setSimulationTimestep(150);
 
             window.addEventListener("keydown", function (key) {
-                let dir = keys.getDirection(key.keyCode);
-                if (dir !== false) {
-                    snake.direction = dir;
+                if (keys.getDirection(key.keyCode)) {
+                    dir = (keys.getDirection(key.keyCode));
                 }
             });
+
+            window.move = function () {
+            }
 
             // --------- MAIN LOOP FUNCTIONS
 
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
-                gameStage.clear();
+
             });
 
             //Physics / AI movements, etc
             MainLoop.setUpdate(function (delta) {
-                snake.move(delta);
+                snake.move(dir);
             });
 
             //Draw canvas elements
             MainLoop.setDraw(function () {
+                gameStage.clear();
                 snake.draw();
             });
         }

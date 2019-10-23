@@ -39,9 +39,6 @@ export class KeyMappings {
 
             case this._right:
                 return "RIGHT";
-
-            default:
-                return false;
         }
     }
 

@@ -1,3 +1,5 @@
+'use strict';
+
 const classes_loaded = true;
 
 export default classes_loaded;
@@ -65,24 +67,16 @@ export class GameStage {
  * Abstract SnakePart that contains common functionality for both
  * the SnakeBody and SnakeHead.
  */
-export class SnakePart {
-    /**
-     * SnakePart Constructor
-     * @param   {number} x                          X location on the canvas.
-     * @param   {number} y                          Y location on the canvas.
-     * @param   {CanvasRenderingContext2D} context  Context from the canvas.
-     * @param   {string} colour                     Colour the snake should be on the canvas.
-     * @param   {number} height                     Height snake should be drawn on the canvas.
-     * @param   {number} width                      Width snake should be drawn on the canvas.
-     * 
-     */
+class SnakePart {
 
-    constructor(x, y, context, colour, height, width) {
+    constructor(x, y, context, colour, size) {
         this._x = x;
         this._y = y;
 
-        this._height = height;
-        this._width = width;;
+        this._prevX = x;
+        this._prevY = y;
+
+        this._size = size;
 
         this._colour = colour;
 
@@ -90,181 +84,81 @@ export class SnakePart {
 
     }
 
-    /**
-     * Draws the SnakeBodyPart on the canvas using x, y, width,
-     * height and colour
-     */
     draw() {
         this._context.fillStyle = this._colour;
-        this._context.fillRect(this._x, this._y, this._width, this._height);
+        this._context.fillRect(this._x, this._y, this._size, this._size);
     }
 
-    /**
-     * Get SnakeBodyPart's x position
-     */
+    set x(x) {
+        this._prevX = this._x;
+        this._x = x;
+    }
+
+    set y(y) {
+        this._prevY = this._y;
+        this._y = y;
+    }
+
     get x() {
         return this._x;
     }
 
-    /**
-     * @param {number} x new x position for SnakeBodyPart
-     */
-    set x(x) {
-        this._x = x;
-    }
-
-    /**
-     * Get SnakeBodyPart's y position
-     */
     get y() {
         return this._y;
     }
 
-    /**
-     * @param {number} y new y position for SnakeBodyPart
-     */
-    set y(y) {
-        this._y = y;
-    }
-
-    /**
-     * Get SnakeBodyPart's colour
-     */
-    get colour() {
-        return this._colour;
-    }
-
-    /**
-     * @param {string} colour new colour for SnakeBodyPart
-     */
-    set colour(colour) {
-        this._colour = colour;
-    }
-
-    /**
-     * Get SnakeBodyPart's height
-     */
-    get height() {
-        return this._height;
-    }
-
-    /**
-     * @param {number} height new height for SnakeBodyPart
-     */
-    set height(height) {
-        this._height = height;
-    }
-
-    /**
-     * Get SnakeBodyPart's width
-     */
-    get width() {
-        return this._width;
-    }
-
-    /**
-     * @param {number} width new width for SnakeBodyPart
-     */
-    set width(width) {
-        this._width = width;
-    }
-
-
-}
-
-/**
- * Extends the functionality of SnakePart by
- * keeping track of it's previous X and Y co-oridnates when
- * its position is updated.
- */
-export class SnakeBody extends SnakePart {
-
-    /**
-     * @see SnakeBodyPart
-     */
-    constructor(x, y, context, colour = "red", height = 10, width = 10) {
-        super(x, y, context, colour, height, width);
-        this._prevX = x;
-        this._prevY = y;
-    }
-
-    get x() {
-        return super.x;
-    }
-
-    get y() {
-        return super.y;
-    }
-    /**
-     * @param {number} x new x position for SnakeBodyPart
-     */
-    set x(x) {
-        this._prevX = this._x;
-        super.x = x;
-    }
-
-    /**
-     * @param {number} y new y position for SnakeBodyPart
-     */
-    set y(y) {
-        this._prevY = this._y;
-        super.y = y;
-    }
-
-    /**
-     * Get SnakeBodyPart's previous x position
-     */
     get prevX() {
         return this._prevX;
     }
 
-    /**
-     * Get SnakeBodyPart's previous y position
-     */
     get prevY() {
         return this._prevY;
     }
-}
 
-
-/**
- * Class to contain all information and functionality
- * required for the Head of the snake. This part of the snake
- * dictates direction and velocity.
- */
-export class SnakeHead extends SnakePart {
-    /**
-     * @see SnakeBodyPart
-     * @param   {string} [direction = "DOWN"]       Show which direction the snake is moving.  
-     * @param   {number} [velocity = 0.1]           Speed at which the snake moves on the canvas.   
-     */
-    constructor(x, y, context, direction = "DOWN", velocity = 0.1, colour = "red", height = 10, width = 10) {
-        super(x, y, context, colour, height, width);
-        this._direction = direction;
-        this._velocity = velocity;
+    get colour() {
+        return this._colour;
     }
 
-    /**
-     * Changes snake's x or y according to the direction
-     * the snake is moving in.
-     * @param {number} delta    Time since update of gameloop was last called 
-     */
-    move(delta) {
-        switch (this._direction.toUpperCase()) {
+    set colour(colour) {
+        this._colour = colour;
+    }
+
+    get size() {
+        return this._size;
+    }
+
+    set size(size) {
+        this._size = size;
+    }
+}
+
+class SnakeHead extends SnakePart {
+
+    constructor(x, y, context, initialDirection, colour, size) {
+        super(x, y, context, colour, size);
+        this._direction = initialDirection;
+    }
+
+    move(direction = this._direction) {
+        switch (direction) {
             case "UP":
-                this._y -= this._velocity * delta;
+                this.y -= this.size;
+                this.x = this.x;
                 break;
 
             case "DOWN":
-                this._y += this._velocity * delta;
+                this.y += this.size;
+                this.x = this.x;
                 break;
 
             case "LEFT":
-                this._x -= this._velocity * delta;
+                this.x -= this.size;
+                this.y = this.y;
                 break;
 
             case "RIGHT":
-                this._x += this._velocity * delta;
+                this.x += this.size;
+                this.y = this.y;
                 break;
 
             default:
@@ -287,7 +181,43 @@ export class SnakeHead extends SnakePart {
     }
 }
 
+export class Snake {
+    constructor(x, y, context, startingBodyLength = 5, intitalDirection = "UP", unitSize = 10, colour = "red") {
+        this._body = [];
+        const head = new SnakeHead(x, y, context, intitalDirection, colour, unitSize);
+        this._body.push(head);
 
+        for (let i = 1; i < startingBodyLength; i++) {
+            this._body.push(new SnakePart(x, y, context, colour, unitSize));
+        }
+    }
+
+
+    draw() {
+        this._body.forEach(function (part) {
+            part.draw();
+        });
+    }
+
+    move(direction) {
+
+        this._body[0].move(direction);
+
+        for (let i = 1; i < this._body.length; i++) {
+            this._body[i].x = this._body[i - 1].prevX;
+            this._body[i].y = this._body[i - 1].prevY;
+        }
+
+    }
+
+    changeDirection(direction) {
+        this._body[0].direction = direction;
+    }
+
+    getDirection() {
+        return this._body[0].direction;
+    }
+}
 
 
 
