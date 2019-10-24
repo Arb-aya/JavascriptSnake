@@ -1,4 +1,4 @@
-import classes_loaded, { GameStage, SnakePart, SnakeBody, SnakeHead } from "../scripts/game/classes.js";
+import classes_loaded, { GameStage, Snake } from "../scripts/game/classes.js";
 import input_loaded, { KeyMappings } from "../scripts/controllers/input.js";
 
 
@@ -28,7 +28,7 @@ describe("GameStage class", function () {
 });
 
 // --------------------------------------- SnakePart Tests
-describe("SnakePart class", function () {
+describe("Snake", function () {
     /*
   * Define values needed for tests to avoid the use of
   * magic numbers. Also allows for more flexible use of 
@@ -37,155 +37,55 @@ describe("SnakePart class", function () {
     const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
     const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
-    const SNAKE_X = 50, SNAKE_Y = 50, NEW_X = 33, NEW_Y = 33, COLOUR = "Red", NEW_COLOUR = "Blue",
-        WIDTH = 10, NEW_WIDTH = 20, HEIGHT = 10, NEW_HEIGHT = 20;
-    const snakePart = new SnakePart(SNAKE_X, SNAKE_Y, game.context, COLOUR, HEIGHT, WIDTH);
+    const SNAKE_X = 50, SNAKE_Y = 50, NEW_X = 33, NEW_Y = 33, COLOUR = "Red", NEW_COLOUR = "Blue";
+    const snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
 
     beforeEach(function () {
-        snakePart.x = SNAKE_X;
-        snakePart.y = SNAKE_Y;
-        snakePart.width = WIDTH;
-        snakePart.height = HEIGHT;
-        snakePart.colour = COLOUR;
+        snake.x = SNAKE_X;
+        snake.y = SNAKE_Y;
+        snake.colour = COLOUR;
     });
 
     it("Should be able to get the snake's x co-ordinate", function () {
-        expect(snakePart.x).toBe(SNAKE_X);
+        expect(snake.x).toBe(SNAKE_X);
     });
 
     it(`Should be able to set the snake's x co-ordinate to ${NEW_X}`, function () {
-        snakePart.x = NEW_X;
-        expect(snakePart.x).toBe(NEW_X);
+        snake.x = NEW_X;
+        expect(snake.x).toBe(NEW_X);
     });
 
     it("Should be able to get the snake's y co-ordinate", function () {
-        expect(snakePart.y).toBe(SNAKE_Y);
+        expect(snake.y).toBe(SNAKE_Y);
     });
 
     it(`Should be able to set the snake's y co-ordinate to ${NEW_Y}`, function () {
-        snakePart.y = NEW_Y;
-        expect(snakePart.y).toBe(NEW_Y);
+        snake.y = NEW_Y;
+        expect(snake.y).toBe(NEW_Y);
     });
 
     it("Should be able to get the snake's context object", function () {
-        expect(snakePart.context).not.toEqual(null);
+        expect(snake.context).not.toEqual(null);
     });
 
     it("Should be able to get the snake's colour", function () {
-        expect(snakePart.colour).toBe(COLOUR);
+        expect(snake.colour).toBe(COLOUR);
     });
 
     it(`Should be able to set the snake's colour to ${NEW_COLOUR}`, function () {
-        snakePart.colour = NEW_COLOUR;
-        expect(snakePart.colour).toBe(NEW_COLOUR);
+        snake.colour = NEW_COLOUR;
+        expect(snake.colour).toBe(NEW_COLOUR);
     });
 
-    it("Should be able to get the snake's height", function () {
-        expect(snakePart.height).toBe(HEIGHT);
+    it("Should be able to get a snake part's size", function () {
+        expect(snake._body[0].size).toBe(10);
     });
 
-    it(`Should be able to set the snake's height to ${NEW_HEIGHT}`, function () {
-        snakePart.height = NEW_HEIGHT;
-        expect(snakePart.height).toBe(NEW_HEIGHT);
-    });
-
-    it("Should be able to get the snake's width", function () {
-        expect(snakePart.width).toBe(WIDTH);
-    });
-
-    it(`Should be able to set the snake's width to ${NEW_WIDTH}`, function () {
-        snakePart.width = NEW_WIDTH;
-        expect(snakePart.width).toBe(NEW_WIDTH);
+    it(`Should be able to set a snake part's size to 20`, function () {
+        snake._body[0].size = 20;
+        expect(snake._body[0].size).toBe(20);
     });
 });
-
-// --------------------------------------- SnakeBody Tests
-describe("SnakeBody class", function () {
-    /*
-     * Define values needed for tests to avoid the use of
-     * magic numbers. Also allows for more flexible use of 
-     * test decriptions via template literals
-     */
-    const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
-    const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
-
-    const SNAKE_X = 50, SNAKE_Y = 50, NEW_X = 33, NEW_Y = 33;
-    const snakeBody = new SnakeBody(SNAKE_X, SNAKE_Y, game.context);
-
-    describe("Getters and Setters", function () {
-
-        beforeEach(function () {
-            snakeBody.x = SNAKE_X;
-            snakeBody.y = SNAKE_Y;
-        });
-
-        it("Should be able to get the previous snake's x co-ordinate", function () {
-            snakeBody.x = NEW_X;
-            expect(snakeBody.prevX).toBe(SNAKE_X);
-        });
-
-        it("Should be able to get the previous snake's y co-ordinate", function () {
-            snakeBody.y = NEW_Y;
-            expect(snakeBody.prevY).toBe(SNAKE_Y);
-        });
-    });
-});
-
-// --------------------------------------- SnakeHead Tests
-describe("SnakeHead class", function () {
-    /*
-     * Define values needed for tests to avoid the use of
-     * magic numbers. Also allows for more flexible use of 
-     * test decriptions via template literals
-     */
-    const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
-    const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
-    let delta = Math.random();
-    const SNAKE_X = 50, SNAKE_Y = 50, NEW_X = 33, NEW_Y = 33;
-    const snakeHead = new SnakeHead(SNAKE_X, SNAKE_Y, game.context)
-    describe("Movement control", function () {
-        const INCORRECT_DIRECTION = "wrong";
-
-        beforeEach(function () {
-            snakeHead.x = SNAKE_X;
-            snakeHead.y = SNAKE_Y;
-        });
-
-        //If y is less than starting y snake will have moved up
-        it("Should be able to move up", function () {
-            snakeHead.direction = "UP";
-            snakeHead.move(delta);
-            expect(snakeHead.y).toBeLessThan(SNAKE_Y);
-        });
-
-        //If y is greater than starting y snake will have moved down
-        it("Should be able to move down", function () {
-            snakeHead.direction = "DOWN";
-            snakeHead.move(delta);
-            expect(snakeHead.y).toBeGreaterThan(SNAKE_Y);
-        });
-
-        //If x is less than starting x snake will have moved left
-        it("Should be able to move left", function () {
-            snakeHead.direction = "LEFT";
-            snakeHead.move(delta);
-            expect(snakeHead.x).toBeLessThan(SNAKE_X);
-        });
-
-        //If x is greater than starting x snake will have moved left
-        it("Should be able to move right", function () {
-            snakeHead.direction = "RIGHT";
-            snakeHead.move(delta);
-            expect(snakeHead.x).toBeGreaterThan(SNAKE_X);
-        });
-
-        it(`Should return false if given incorrect parameter ${INCORRECT_DIRECTION}`, function () {
-            snakeHead.direction = INCORRECT_DIRECTION;
-            expect(snakeHead.move(delta)).toBe(false);
-        });
-    });
-});
-
 
 // --------------------------------------- KeyMappings Tests
 describe("KeyMappings class", function () {
