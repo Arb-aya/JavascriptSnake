@@ -196,6 +196,7 @@ class SnakeHead extends SnakePart {
      * @param {direction} [direction = this.direction] Direction to move in 
      */
     move(direction = this._direction) {
+        this._direction = direction;
         switch (direction) {
             case "UP":
                 this.y -= this.size;
@@ -213,8 +214,10 @@ class SnakeHead extends SnakePart {
                 break;
 
             case "RIGHT":
+                console.log("MOVE: " + this.x);
                 this.x += this.size;
                 this.y = this.y;
+                console.log("MOVE: " + this.x);
                 break;
 
             default:
@@ -274,6 +277,17 @@ export class Snake {
      * @param {string} direction Direction to move the snake in.
      */
     move(direction) {
+        console.log("Moving " + direction);
+        /*
+         * If the direction is the direction opposite of the current direction. 
+         * Continue moving in the same direction previously.
+         */
+        if ((direction === "LEFT" && this._body[0].direction === "RIGHT") ||
+            (direction === "RIGHT" && this._body[0].direction === "LEFT") ||
+            (direction === "UP" && this._body[0].direction === "DOWN") ||
+            (direction === "DOWN" && this._body[0].direction === "UP")) {
+            direction = this._body[0].direction;
+        }
 
         this._body[0].move(direction);
 
@@ -281,14 +295,33 @@ export class Snake {
             this._body[i].x = this._body[i - 1].prevX;
             this._body[i].y = this._body[i - 1].prevY;
         }
-
     }
 
     /**
-     * Get the direction of the head of the snake.
+     * Getters and setters used for testing purposes
      */
-    getDirection() {
+    get direction() {
         return this._body[0].direction;
+    }
+
+    set direction(direction){
+        this._body[0].direction = direction;
+    }
+
+    get y() {
+        return this._body[0].y;
+    }
+
+    get x() {
+        return this._body[0].x;
+    }
+
+    set y(y) {
+        this._body[0].y = y;
+    }
+
+    set x(x) {
+        this._body[0].x = x;
     }
 }
 

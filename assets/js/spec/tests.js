@@ -3,7 +3,7 @@ import input_loaded, { KeyMappings } from "../scripts/controllers/input.js";
 
 
 // --------------------------------------- GameStage Tests
-describe("GameStage class", function () {
+xdescribe("GameStage class", function () {
     const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
     const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -27,68 +27,8 @@ describe("GameStage class", function () {
 
 });
 
-// --------------------------------------- SnakePart Tests
-describe("Snake", function () {
-    /*
-  * Define values needed for tests to avoid the use of
-  * magic numbers. Also allows for more flexible use of 
-  * test decriptions via template literals
-  */
-    const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
-    const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
-
-    const SNAKE_X = 50, SNAKE_Y = 50, NEW_X = 33, NEW_Y = 33, COLOUR = "Red", NEW_COLOUR = "Blue";
-    const snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
-
-    beforeEach(function () {
-        snake.x = SNAKE_X;
-        snake.y = SNAKE_Y;
-        snake.colour = COLOUR;
-    });
-
-    it("Should be able to get the snake's x co-ordinate", function () {
-        expect(snake.x).toBe(SNAKE_X);
-    });
-
-    it(`Should be able to set the snake's x co-ordinate to ${NEW_X}`, function () {
-        snake.x = NEW_X;
-        expect(snake.x).toBe(NEW_X);
-    });
-
-    it("Should be able to get the snake's y co-ordinate", function () {
-        expect(snake.y).toBe(SNAKE_Y);
-    });
-
-    it(`Should be able to set the snake's y co-ordinate to ${NEW_Y}`, function () {
-        snake.y = NEW_Y;
-        expect(snake.y).toBe(NEW_Y);
-    });
-
-    it("Should be able to get the snake's context object", function () {
-        expect(snake.context).not.toEqual(null);
-    });
-
-    it("Should be able to get the snake's colour", function () {
-        expect(snake.colour).toBe(COLOUR);
-    });
-
-    it(`Should be able to set the snake's colour to ${NEW_COLOUR}`, function () {
-        snake.colour = NEW_COLOUR;
-        expect(snake.colour).toBe(NEW_COLOUR);
-    });
-
-    it("Should be able to get a snake part's size", function () {
-        expect(snake._body[0].size).toBe(10);
-    });
-
-    it(`Should be able to set a snake part's size to 20`, function () {
-        snake._body[0].size = 20;
-        expect(snake._body[0].size).toBe(20);
-    });
-});
-
 // --------------------------------------- KeyMappings Tests
-describe("KeyMappings class", function () {
+xdescribe("KeyMappings class", function () {
     const defaultKeys = new KeyMappings();
     const OVR_UP = 87, OVR_DOWN = 65, OVR_LEFT = 13, OVR_RIGHT = 19;
     const ovrKeys = new KeyMappings(OVR_UP, OVR_DOWN, OVR_LEFT, OVR_RIGHT);
@@ -186,3 +126,105 @@ describe("KeyMappings class", function () {
         });
     });
 });
+
+// --------------------------------------- SnakePart Tests
+describe("Snake", function () {
+    /*
+  * Define values needed for tests to avoid the use of
+  * magic numbers. Also allows for more flexible use of 
+  * test decriptions via template literals
+  */
+    const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
+    const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
+
+    const SNAKE_X = 50, SNAKE_Y = 50, NEW_X = 33, NEW_Y = 33, COLOUR = "Red", NEW_COLOUR = "Blue";
+    const snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
+
+    beforeEach(function () {
+        snake.x = SNAKE_X;
+        snake.y = SNAKE_Y;
+        snake.colour = COLOUR;
+        snake.size = 10;
+    });
+
+    xdescribe("Getters and setters", function () {
+        it("Should be able to get the snake's x co-ordinate", function () {
+            expect(snake.x).toBe(SNAKE_X);
+        });
+
+        it(`Should be able to set the snake's x co-ordinate to ${NEW_X}`, function () {
+            snake.x = NEW_X;
+            expect(snake.x).toBe(NEW_X);
+        });
+
+        it("Should be able to get the snake's y co-ordinate", function () {
+            expect(snake.y).toBe(SNAKE_Y);
+        });
+
+        it(`Should be able to set the snake's y co-ordinate to ${NEW_Y}`, function () {
+            snake.y = NEW_Y;
+            expect(snake.y).toBe(NEW_Y);
+        });
+
+        it("Should be able to get the snake's context object", function () {
+            expect(snake.context).not.toEqual(null);
+        });
+
+        it("Should be able to get the snake's colour", function () {
+            expect(snake.colour).toBe(COLOUR);
+        });
+
+        it(`Should be able to set the snake's colour to ${NEW_COLOUR}`, function () {
+            snake.colour = NEW_COLOUR;
+            expect(snake.colour).toBe(NEW_COLOUR);
+        });
+
+        it("Should be able to get a snake part's size", function () {
+            expect(snake._body[0].size).toBe(10);
+        });
+
+        it(`Should be able to set a snake part's size to 20`, function () {
+            snake._body[0].size = 20;
+            expect(snake._body[0].size).toBe(20);
+        });
+    });
+
+    describe("Move function", function () {
+
+        beforeEach(function(){
+            snake.x = SNAKE_X;
+            snake.y = SNAKE_Y;
+            snake.direction = "UP";
+            console.log(snake.x);
+        });
+
+        it("Should be able to move RIGHT", function () {
+            snake.move("RIGHT");
+            expect(snake.x).toBeGreaterThan(SNAKE_X);
+        });
+
+        it("Should be able to move UP", function () {
+            snake.move("UP");
+            expect(snake.y).toBeLessThan(SNAKE_Y);
+        });
+
+        it("Should be able to move DOWN", function () {
+            snake.move("LEFT");
+            snake.move("DOWN");
+            expect(snake.y).toBeGreaterThan(SNAKE_Y);
+        });
+
+        it("Should be able to move LEFT", function () {
+            snake.move("LEFT");
+            expect(snake.x).toBeLessThan(SNAKE_X);
+
+        });
+
+        it("If moving LEFT should not be able to move immediately RIGHT", function () {
+            snake.move("LEFT");
+            snake.move("RIGHT");
+            expect(snake.direction).toBe("LEFT");
+        });
+    })
+});
+
