@@ -41,7 +41,7 @@ document.onreadystatechange = function () {
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
             const snake = new Snake(200, 200, gameStage.context);
             const keys = new KeyMappings();
-            let dir = snake.getDirection();
+            let dir = snake.direction;
 
             MainLoop.setSimulationTimestep(150);
 
