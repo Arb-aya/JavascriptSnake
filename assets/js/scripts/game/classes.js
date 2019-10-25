@@ -64,7 +64,7 @@ export class GameStage {
 }
 
 /**
- *  Base class for each part of the snake. Contains basic functionality to move and draw it.
+ *  Base class for each part of the snake. Contains basic functionality to place and draw it.
  */
 class SnakePart {
 
@@ -296,15 +296,17 @@ export class Snake {
         }
     }
 
-    get colour(){
+    get colour() {
         return this._colour;
     }
 
-    set colour(colour){
-        this._colour = colour;
-        this._body.forEach(function(part){
-            part.colour = colour;
-        })
+    set colour(colour) {
+        if (this._colour !== colour) {
+            this._colour = colour;
+            this._body.forEach(function (part) {
+                part.colour = colour;
+            });
+        }
     }
 
     /**
@@ -314,7 +316,7 @@ export class Snake {
         return this._body[0].direction;
     }
 
-    set direction(direction){
+    set direction(direction) {
         this._body[0].direction = direction;
     }
 
@@ -333,6 +335,12 @@ export class Snake {
     set x(x) {
         this._body[0].x = x;
     }
+}
+
+
+
+class food{
+    
 }
 
 

@@ -7,8 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Milestone 2 Project</title>
 
+    <!-- modernizr -->
+    <script src="assets/js/libs/modernizr-custom.js"></script>
+
     <!-- MainLoop JS-->
-    <script src="https://cdn.jsdelivr.net/npm/mainloop.js@latest/build/mainloop.min.js"></script>
+    <script src="assets/js/libs/mainloop.js"></script>
 
     <!-- Site Scripts -->
     <script src="assets/js/scripts/main.js" type="module"></script>
@@ -26,13 +29,19 @@
         <button onclick="stopGame()">STOP</button>
     </div>
     <div>
-        <button onclick="toggleSettings()"> Toggle settings</button>
+        <button onclick="toggleSettings(this)"> Hide settings</button>
         <div id="settings">
             <h2> SETTINGS </h2>
-            <form>
-                <label for="snakeColour"> Choose your snake's colour</label>
-                <input type="color" id="snakeColour" name="snakeColour">
-            </form>
+
+            <div id="snakeColour">
+                <label> Choose your snake's colour:</label>
+                <button onclick="updateSnakeColour('red')">Red</button>
+                <button onclick="updateSnakeColour('blue')">Blue</button>
+                <button onclick="updateSnakeColour('green')">Green</button>
+                <button onclick="updateSnakeColour('Yellow')">Yellow</button>
+                <button onclick="updateSnakeColour('Purple')">Purple</button>
+            </div>
+
         </div>
     </div>
 </body>

@@ -18,14 +18,16 @@ window.stopGame = function () {
     MainLoop.stop();
 }
 
-window.toggleSettings = function () {
+window.toggleSettings = function (btn) {
     let settings = document.getElementById("settings");
-
     if (settings.style.display === "block") {
         settings.style.display = "none";
+        btn.childNodes[0].nodeValue = "Show settings";
+
     }
     else {
         settings.style.display = "block";
+        btn.childNodes[0].nodeValue = "Hide settings";
     }
 }
 
@@ -39,22 +41,9 @@ document.onreadystatechange = function () {
     if (document.readyState === "complete") {
         if (filesLoaded) {
 
-
-            // ----------- CREATE OBJECTS, CONSTANTS AND SET VARIABLES FOR THE GAME
-            const DEFAULT_SNAKE_COLOUR = "#ff0000";
-
-            const colourPicker = document.getElementById("snakeColour");
-            colourPicker.value = DEFAULT_SNAKE_COLOUR;
-
-            /* In some browsers the color input is shown as a text box rather than a pallete.
-             * If this is the case we need to use the select method to get the value.
-             * This does nothing if the input is shown as a pallete.
-             */
-            colourPicker.select();
-
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
-            const snake = new Snake(200, 200, gameStage.context, 5, "UP", 10, colourPicker.value);
+            const snake = new Snake(200, 200, gameStage.context);
 
             const keys = new KeyMappings();
 
@@ -64,14 +53,14 @@ document.onreadystatechange = function () {
              * The frame rate that the gameloop mimics. Basically this controls 
              * how fast the snake moves
              */
-            MainLoop.setSimulationTimestep(150);
+
+            MainLoop.setSimulationTimestep(90);
+
+            window.updateSnakeColour = function (colour) {
+                snake.colour = colour;
+            }
 
             // ----------  EVENT LISTENERS FOR THE SETTINGS / TO CAPTURE INPUT
-            colourPicker.addEventListener("change", function () {
-                snake.colour = event.target.value;
-            });
-
-
             window.addEventListener("keydown", function (key) {
                 if (keys.getDirection(key.keyCode)) {
                     dir = (keys.getDirection(key.keyCode));
