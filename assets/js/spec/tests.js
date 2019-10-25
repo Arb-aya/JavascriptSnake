@@ -3,7 +3,7 @@ import input_loaded, { KeyMappings } from "../scripts/controllers/input.js";
 
 
 // --------------------------------------- GameStage Tests
-xdescribe("GameStage class", function () {
+describe("GameStage class", function () {
     const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
     const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -28,7 +28,7 @@ xdescribe("GameStage class", function () {
 });
 
 // --------------------------------------- KeyMappings Tests
-xdescribe("KeyMappings class", function () {
+describe("KeyMappings class", function () {
     const defaultKeys = new KeyMappings();
     const OVR_UP = 87, OVR_DOWN = 65, OVR_LEFT = 13, OVR_RIGHT = 19;
     const ovrKeys = new KeyMappings(OVR_UP, OVR_DOWN, OVR_LEFT, OVR_RIGHT);
@@ -138,16 +138,25 @@ describe("Snake", function () {
     const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
     const SNAKE_X = 50, SNAKE_Y = 50, NEW_X = 33, NEW_Y = 33, COLOUR = "Red", NEW_COLOUR = "Blue";
-    const snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
+    let snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
 
     beforeEach(function () {
         snake.x = SNAKE_X;
         snake.y = SNAKE_Y;
-        snake.colour = COLOUR;
-        snake.size = 10;
+        snake.colour = COLOUR; 
+        snake._body[0].size = 10;
     });
 
-    xdescribe("Getters and setters", function () {
+    describe("Getters and setters", function () {
+        it("Should be able to get the snake's colour", function(){
+            expect(snake.colour).toBe(COLOUR);
+        });
+
+        it(`Should be able to set the snake's colour to ${NEW_COLOUR}`, function(){
+            snake.colour = NEW_COLOUR;
+            expect(snake._body[0].colour).toBe(NEW_COLOUR);
+        });
+
         it("Should be able to get the snake's x co-ordinate", function () {
             expect(snake.x).toBe(SNAKE_X);
         });
@@ -195,7 +204,6 @@ describe("Snake", function () {
             snake.x = SNAKE_X;
             snake.y = SNAKE_Y;
             snake.direction = "UP";
-            console.log(snake.x);
         });
 
         it("Should be able to move RIGHT", function () {
@@ -224,6 +232,29 @@ describe("Snake", function () {
             snake.move("LEFT");
             snake.move("RIGHT");
             expect(snake.direction).toBe("LEFT");
+        });
+
+        it("If moving RIGHT should not be able to move immediately RIGHT", function(){
+            snake.move("RIGHT");
+            snake.move("LEFT");
+            expect(snake.direction).toBe("RIGHT");
+        });
+
+        it("If moving UP should not be able to move immediately DOWN", function(){
+            snake.move("UP");
+            snake.move("DOWN");
+            expect(snake.direction).toBe("UP");
+        });
+
+        it("If moving DOWN should not be able to move immediately UP", function(){
+            /*
+             * Snake moves up by default, so to be able to test moving down we need move
+             * to be moving in a direction other than up.
+             */
+            snake.move("LEFT"); 
+            snake.move("DOWN");
+            snake.move("UP");
+            expect(snake.direction).toBe("DOWN");
         });
     })
 });
