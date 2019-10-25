@@ -214,10 +214,8 @@ class SnakeHead extends SnakePart {
                 break;
 
             case "RIGHT":
-                console.log("MOVE: " + this.x);
                 this.x += this.size;
-                this.y = this.y;
-                console.log("MOVE: " + this.x);
+                this.y = this.y;;
                 break;
 
             default:
@@ -251,6 +249,7 @@ export class Snake {
      * @property {SnakePart/SnakeHead}  body               Array that contains SnakeHead and SnakePart. SnakeHead always the first element.
      */
     constructor(x, y, context, startingBodyLength = 5, intitalDirection = "UP", unitSize = 10, colour = "red") {
+        this._colour = colour;
         this._body = [];
         const head = new SnakeHead(x, y, context, intitalDirection, colour, unitSize);
         this._body.push(head);
@@ -277,7 +276,7 @@ export class Snake {
      * @param {string} direction Direction to move the snake in.
      */
     move(direction) {
-        console.log("Moving " + direction);
+
         /*
          * If the direction is the direction opposite of the current direction. 
          * Continue moving in the same direction previously.
@@ -295,6 +294,17 @@ export class Snake {
             this._body[i].x = this._body[i - 1].prevX;
             this._body[i].y = this._body[i - 1].prevY;
         }
+    }
+
+    get colour(){
+        return this._colour;
+    }
+
+    set colour(colour){
+        this._colour = colour;
+        this._body.forEach(function(part){
+            part.colour = colour;
+        })
     }
 
     /**

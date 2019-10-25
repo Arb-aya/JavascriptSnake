@@ -38,12 +38,39 @@ window.toggleSettings = function () {
 document.onreadystatechange = function () {
     if (document.readyState === "complete") {
         if (filesLoaded) {
+
+
+            // ----------- CREATE OBJECTS, CONSTANTS AND SET VARIABLES FOR THE GAME
+            const DEFAULT_SNAKE_COLOUR = "#ff0000";
+
+            const colourPicker = document.getElementById("snakeColour");
+            colourPicker.value = DEFAULT_SNAKE_COLOUR;
+
+            /* In some browsers the color input is shown as a text box rather than a pallete.
+             * If this is the case we need to use the select method to get the value.
+             * This does nothing if the input is shown as a pallete.
+             */
+            colourPicker.select();
+
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
-            const snake = new Snake(200, 200, gameStage.context);
+
+            const snake = new Snake(200, 200, gameStage.context, 5, "UP", 10, colourPicker.value);
+
             const keys = new KeyMappings();
+
             let dir = snake.direction;
 
+            /**
+             * The frame rate that the gameloop mimics. Basically this controls 
+             * how fast the snake moves
+             */
             MainLoop.setSimulationTimestep(150);
+
+            // ----------  EVENT LISTENERS FOR THE SETTINGS / TO CAPTURE INPUT
+            colourPicker.addEventListener("change", function () {
+                snake.colour = event.target.value;
+            });
+
 
             window.addEventListener("keydown", function (key) {
                 if (keys.getDirection(key.keyCode)) {
@@ -51,8 +78,6 @@ document.onreadystatechange = function () {
                 }
             });
 
-            window.move = function () {
-            }
 
             // --------- MAIN LOOP FUNCTIONS
 
