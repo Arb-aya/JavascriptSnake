@@ -186,11 +186,11 @@ class SnakeBody extends GameObject {
      * Because we override the setters of GameObject, we also need to overload the
      * getters. Regardless of the same functionality.
      */
-    get x(){
+    get x() {
         return this._x;
     }
 
-    get y(){
+    get y() {
         return this._y;
     }
 
@@ -283,16 +283,35 @@ export class Snake {
      */
     constructor(x, y, context, startingBodyLength = 5, intitalDirection = "UP", unitSize = 10, colour = "red") {
         this._colour = colour;
+        this._context = context;
+        this._size = unitSize;
+
         this._body = [];
         const head = new SnakeHead(x, y, context, intitalDirection, colour, unitSize);
         this._body.push(head);
 
+        //Add new body parts until the length is startingBodyLength
         for (let i = 1; i < startingBodyLength; i++) {
             this._body.push(new SnakeBody(x, y, context, colour, unitSize));
         }
     }
 
 
+    /**
+     * 
+     * @param {number} [growAmount=1] number of new body parts the snake should grow by
+     */
+    grow(growAmount = 1) {
+        if (growAmount <= 0)
+            growAmount = 1;
+
+        for (let i = 0; i < growAmount; i++) {
+            const lastX = this._body[this._body.length - 1].x;
+            const lastY = this._body[this._body.length - 1].y;
+
+            this._body.push(new SnakeBody(lastX, lastY, this._context, this._colour, this._size));
+        }
+    }
     /**
      * Call the draw method on each snake part.
      */
@@ -333,6 +352,12 @@ export class Snake {
         return this._colour;
     }
 
+    /**
+     * If colour provided is different to current colour
+     * change colour of each snakepart
+     * 
+     * @param {string} colour  New colour of snake
+     */
     set colour(colour) {
         if (this._colour !== colour) {
             this._colour = colour;
@@ -382,7 +407,7 @@ export class Food extends GameObject {
      * @param {string}                          [colour=green]      Colour food is displayed as
      * @param {number}                          [size=10]           Dictates height and width of food 
      */
-    constructor(canvasWidth, canvasHeight, context, colour="green", size=10) {
+    constructor(canvasWidth, canvasHeight, context, colour = "green", size = 10) {
         super(0, 0, context, colour, size);
         this._canvasWidth = canvasWidth;
         this._canvasHeight = canvasHeight;
@@ -405,10 +430,10 @@ export class Food extends GameObject {
      * 
      * @param {object} obj Object to check for collision with
      */
-    eatenBy(obj){
-        if(this.x === obj.x && this.y === obj.y){
+    eatenBy(obj) {
+        if (this.x === obj.x && this.y === obj.y) {
             return true;
-        }    
+        }
 
         return false;
     }
@@ -424,13 +449,13 @@ export class Food extends GameObject {
     static getRandomPosition(min, max, size = 10) {
         //Get a random number between min and max inclusive
         const num = Math.floor(Math.random() * (max - min)) + min;
-        
+
         //Round the number to the nearest "size"
         const roundedNum = Math.ceil((num + 1) / size) * size;
-         
+
         //If the rounded number is greater than or equal to max, bring
         //it back in bounds and set it to max - size.
-        return (roundedNum >= max) ? max-size : roundedNum;
+        return (roundedNum >= max) ? max - size : roundedNum;
     }
 }
 

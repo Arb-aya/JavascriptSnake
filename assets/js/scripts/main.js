@@ -80,6 +80,7 @@ document.onreadystatechange = function () {
             MainLoop.setBegin(function () {
                 if(ff.eatenBy(snake)){
                     ff.newPosition();
+                    snake.grow();
                 }
             });
 
