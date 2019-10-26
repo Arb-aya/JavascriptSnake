@@ -1,4 +1,4 @@
-import classes_loaded, { GameStage, Snake } from "../scripts/game/classes.js";
+import classes_loaded, { GameStage, Snake, Food } from "../scripts/game/classes.js";
 import input_loaded, { KeyMappings } from "../scripts/controllers/input.js";
 
 
@@ -147,7 +147,7 @@ describe("Snake", function () {
         snake._body[0].size = 10;
     });
 
-    describe("Getters and setters", function () {
+    describe("Getters and setters (inherited from GameObject/SnakeBody)", function () {
         it("Should be able to get the snake's colour", function(){
             expect(snake.colour).toBe(COLOUR);
         });
@@ -257,5 +257,38 @@ describe("Snake", function () {
             expect(snake.direction).toBe("DOWN");
         });
     })
+});
+
+// --------------------------------------- Food Tests
+describe("food", function(){
+    const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
+    const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
+    const food = new Food(INITIAL_WIDTH,INITIAL_HEIGHT,game.context);
+    const SNAKE_X = 50, SNAKE_Y = 50;
+    const snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
+
+    it("Should generate a new x position when \"newPosition()\" is called",function(){
+        const oldX = food.x;
+        food.newPosition();
+        expect(oldX).not.toBe(food.x);
+    });
+
+    it("Should generate a new y position when \"newPosition()\" is called",function(){
+        const oldY = food.y;
+        food.newPosition();
+        expect(oldY).not.toBe(food.y);
+    });
+
+    it("Should return false when eatenBy() is passed an object with different x and y than the food object", function(){
+        snake.x = food.x+10;
+        snake.y = food.y;
+        expect(food.eatenBy(snake)).toBe(false);
+    });
+
+    it("Should return true when eatenBy() is passed an object with the same x and y as the food object", function(){
+        snake.x = food.x;
+        snake.y = food.y;
+        expect(food.eatenBy(snake)).toBe(true);
+    });
 });
 

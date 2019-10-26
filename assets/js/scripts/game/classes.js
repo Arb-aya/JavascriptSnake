@@ -64,26 +64,20 @@ export class GameStage {
 }
 
 /**
- *  Base class for each part of the snake. Contains basic functionality to place and draw it.
+ *  Base class for each GameObject. Contains basic functionality to place and draw it.
  */
-class SnakePart {
-
+class GameObject {
     /**
-     *  Constructs a new colour snakepart at x,y via context at a size of size.
-     * @param    {number}                          x        x location for this snake part
-     * @param    {number}                          y        y location for this snake part
+     *  Constructs a new colour GameObject at x,y via context at a size of size.
+     * @param    {number}                          x        x location for this GameObject
+     * @param    {number}                          y        y location for this GameObject
      * @param    {CanvasRenderingContext2D }       context  context object from a html 5 canvas     
-     * @param    {string}                          colour   colour of this snake part
+     * @param    {string}                          colour   colour of this GameObject
      * @param    {number}                          size     defines the height and width of this unit
-     * @property {number}                          prevX    When the x location changes, the old location is stored in prevX
-     * @property {number}                          prevY    When the y location changes, the old location is stored in prevY
      */
     constructor(x, y, context, colour, size) {
         this._x = x;
         this._y = y;
-
-        this._prevX = x;
-        this._prevY = y;
 
         this._size = size;
 
@@ -94,7 +88,7 @@ class SnakePart {
     }
 
     /**
-     * Draws the snakepart on the html5 canvas, via the context object.
+     * Draws the GameObject on the html5 canvas, via the context object.
      */
     draw() {
         this._context.fillStyle = this._colour;
@@ -102,34 +96,101 @@ class SnakePart {
     }
 
     /**
-     * @param {number} x the new x position to change to
-     * Stores the old x value in prevX
+     * @param {number} x the new x position 
      */
     set x(x) {
-        this._prevX = this._x;
         this._x = x;
     }
 
     /**
-     * @param {number} y the new y position to change to
-     * Stores the old y value in prevY
+     * @param {number} y the new y position 
      */
     set y(y) {
-        this._prevY = this._y;
         this._y = y;
     }
 
     /**
-     * Get snakepart's x location
+     * Get GameObjects's x location
      */
     get x() {
         return this._x;
     }
 
     /**
-     * Get snakepart's y location
+     * Get GameObjects's y location
      */
     get y() {
+        return this._y;
+    }
+
+    /**
+     * Get the colour of this snakepart
+     */
+    get colour() {
+        return this._colour;
+    }
+
+    /**
+     * @param {string} colour   The colour this GameObject should be
+     */
+    set colour(colour) {
+        this._colour = colour;
+    }
+
+    /**
+     * Get the size of this GameObject
+     */
+    get size() {
+        return this._size;
+    }
+
+    /**
+     * @param {number} size Size the GameObject should be. Used for height and width.
+     */
+    set size(size) {
+        this._size = size;
+    }
+}
+
+/**
+ * Snakebodys have all functionality of a gameobject, 
+ * but also keep track of their previous x and y location.
+ */
+class SnakeBody extends GameObject {
+    /**
+    * @see GameObject
+    * @property {number}                         _prevX    When the x location changes, the old location is stored in prevX
+    * @property {number}                         _prevY    When the y location changes, the old location is stored in prevY
+    */
+    constructor(x, y, context, colour, size) {
+        super(x, y, context, colour, size);
+        this._prevX = x;
+        this._prevY = y;
+    }
+
+
+    /**
+     * @param {number} x
+     */
+    set x(x) {
+        this._prevX = this._x;
+        this._x = x;
+    }
+
+    set y(y) {
+        this._prevY = this._y;
+        this._y = y;
+    }
+
+    /** 
+     * Because we override the setters of GameObject, we also need to overload the
+     * getters. Regardless of the same functionality.
+     */
+    get x(){
+        return this._x;
+    }
+
+    get y(){
         return this._y;
     }
 
@@ -146,41 +207,13 @@ class SnakePart {
     get prevY() {
         return this._prevY;
     }
-
-    /**
-     * Get the colour of this snakepart
-     */
-    get colour() {
-        return this._colour;
-    }
-
-    /**
-     * @param {string} colour   The colour this snakepart should be
-     */
-    set colour(colour) {
-        this._colour = colour;
-    }
-
-    /**
-     * Get the size of this snakepart
-     */
-    get size() {
-        return this._size;
-    }
-
-    /**
-     * @param {number} size Size the snakepart should be. Used for height and width.
-     */
-    set size(size) {
-        this._size = size;
-    }
 }
 
 /**
  * Extends snakepart class with added functionality of moving and direction.
- * @see SnakePart
+ * @see SnakeBody
  */
-class SnakeHead extends SnakePart {
+class SnakeHead extends SnakeBody {
 
     /**
      * @see SnakePart
@@ -215,7 +248,7 @@ class SnakeHead extends SnakePart {
 
             case "RIGHT":
                 this.x += this.size;
-                this.y = this.y;;
+                this.y = this.y;
                 break;
 
             default:
@@ -243,7 +276,7 @@ class SnakeHead extends SnakePart {
  */
 export class Snake {
     /**
-     * @see SnakePart
+     * @see SnakeBody
      * @see SnakeHead
      * @param {number}                  startingBodyLength How many units the body should be composed of at the start of the game
      * @property {SnakePart/SnakeHead}  body               Array that contains SnakeHead and SnakePart. SnakeHead always the first element.
@@ -255,7 +288,7 @@ export class Snake {
         this._body.push(head);
 
         for (let i = 1; i < startingBodyLength; i++) {
-            this._body.push(new SnakePart(x, y, context, colour, unitSize));
+            this._body.push(new SnakeBody(x, y, context, colour, unitSize));
         }
     }
 
@@ -337,13 +370,69 @@ export class Snake {
     }
 }
 
+/**
+ * The food the snake eats
+ */
+export class Food extends GameObject {
 
+    /**
+     * @param {number}                          canvasWidth         Width of the html 5 canvas
+     * @param {number}                          canvasHeight        Height of the html 5 canvas
+     * @param {CanvasRenderingContext2D }       context             Context object from a html 5 canvas  
+     * @param {string}                          [colour=green]      Colour food is displayed as
+     * @param {number}                          [size=10]           Dictates height and width of food 
+     */
+    constructor(canvasWidth, canvasHeight, context, colour="green", size=10) {
+        super(0, 0, context, colour, size);
+        this._canvasWidth = canvasWidth;
+        this._canvasHeight = canvasHeight;
+        this.x = Food.getRandomPosition(0, this._canvasWidth, this._size)
+        this.y = Food.getRandomPosition(0, this._canvasHeight, this._size)
 
-class food{
-    
+    }
+
+    /**
+     * Generate new x and y location for the food object
+     */
+    newPosition() {
+        this.x = Food.getRandomPosition(this._size, this._canvasWidth, this._size);
+        this.y = Food.getRandomPosition(this._size, this._canvasHeight, this._size);
+    }
+
+    /**
+     * Checks to see if this food object and obj have collided.
+     * Simply by checking if the x and y location are the same.
+     * 
+     * @param {object} obj Object to check for collision with
+     */
+    eatenBy(obj){
+        if(this.x === obj.x && this.y === obj.y){
+            return true;
+        }    
+
+        return false;
+    }
+
+    /**
+     * Generates a random number from min-max rounded to the nearest size.
+     * Help with the math was taken from:
+     * https://stackoverflow.com/questions/11022488/javascript-using-round-to-the-nearest-10/11022517
+     * @param {number} min      Minimum number in range of numbers to generate one from
+     * @param {number} max      Maximum number in range of numbers to generate from 
+     * @param {number} size     Number returned, should be returned to the nearest size.
+     */
+    static getRandomPosition(min, max, size = 10) {
+        //Get a random number between min and max inclusive
+        const num = Math.floor(Math.random() * (max - min)) + min;
+        
+        //Round the number to the nearest "size"
+        const roundedNum = Math.ceil((num + 1) / size) * size;
+         
+        //If the rounded number is greater than or equal to max, bring
+        //it back in bounds and set it to max - size.
+        return (roundedNum >= max) ? max-size : roundedNum;
+    }
 }
-
-
 
 
 

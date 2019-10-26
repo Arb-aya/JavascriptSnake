@@ -1,4 +1,4 @@
-import classes_loaded, { GameStage, Snake } from './game/classes.js';
+import classes_loaded, { GameStage, Food, Snake } from './game/classes.js';
 import input_loaded, { KeyMappings } from './controllers/input.js';
 
 //----------------------------- GLOBAL CONSTANTS / FUNCTIONS
@@ -47,6 +47,8 @@ document.onreadystatechange = function () {
 
             const keys = new KeyMappings();
 
+            const ff = new Food(INITIAL_WIDTH, INITIAL_HEIGHT, gameStage.context, "green", 10);
+            ff.newPosition();
             let dir = snake.direction;
 
             /**
@@ -58,6 +60,10 @@ document.onreadystatechange = function () {
 
             window.updateSnakeColour = function (colour) {
                 snake.colour = colour;
+            }
+
+            window.testFood = function(){
+                ff.newPosition();
             }
 
             // ----------  EVENT LISTENERS FOR THE SETTINGS / TO CAPTURE INPUT
@@ -72,7 +78,9 @@ document.onreadystatechange = function () {
 
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
-
+                if(ff.eatenBy(snake)){
+                    ff.newPosition();
+                }
             });
 
             //Physics / AI movements, etc
@@ -84,6 +92,7 @@ document.onreadystatechange = function () {
             MainLoop.setDraw(function () {
                 gameStage.clear();
                 snake.draw();
+                ff.draw();
             });
         }
         else {
