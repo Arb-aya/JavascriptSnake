@@ -286,16 +286,12 @@ describe("food", function(){
     const SNAKE_X = 50, SNAKE_Y = 50;
     const snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
 
-    it("Should generate a new x position when \"newPosition()\" is called",function(){
+
+    it("Should generate a new position when \"newPosition()\" is called",function(){
+        const oldY = food.y;
         const oldX = food.x;
         food.newPosition();
-        expect(oldX).not.toBe(food.x);
-    });
-
-    it("Should generate a new y position when \"newPosition()\" is called",function(){
-        const oldY = food.y;
-        food.newPosition();
-        expect(oldY).not.toBe(food.y);
+        expect([oldY, oldX]).not.toBe([food.y, food.x]);
     });
 
     it("Should return false when eatenBy() is passed an object with different x and y than the food object", function(){
