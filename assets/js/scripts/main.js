@@ -81,6 +81,7 @@ document.onreadystatechange = function () {
                 if(ff.eatenBy(snake)){
                     ff.newPosition();
                     snake.grow();
+                    gameStage.increaseScore();
                 }
             });
 
@@ -92,6 +93,7 @@ document.onreadystatechange = function () {
             //Draw canvas elements
             MainLoop.setDraw(function () {
                 gameStage.clear();
+                gameStage.draw();
                 snake.draw();
                 ff.draw();
             });

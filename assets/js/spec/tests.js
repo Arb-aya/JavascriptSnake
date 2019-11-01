@@ -11,6 +11,23 @@ describe("GameStage class", function () {
         expect(document.getElementById("gameCanvas")).not.toEqual(null);
     });
 
+    it("Should be able to get the game score", function(){
+        game.resetScore();
+        expect(game.score).toBe(0);
+    });
+
+    it("Should be able to set the increase the game score", function(){
+        const score = game.score;
+        game.increaseScore();
+        expect(game.score).toBe(score+10);
+    });
+
+    it("Should be able to reset the game score", function(){
+        game.increaseScore();
+        game.resetScore();
+        expect(game.score).toBe(0);
+    });
+
     describe("Getters", function () {
         it(`Should get the width of the canvas : ${INITIAL_WIDTH}`, function () {
             expect(game.width).toBe(INITIAL_WIDTH);
@@ -24,6 +41,8 @@ describe("GameStage class", function () {
             expect(game.context).not.toEqual(null);
         });
     });
+
+
 
 });
 

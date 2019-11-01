@@ -23,6 +23,9 @@ export class GameStage {
 
         //context object from canvas
         this._context = this._canvas.getContext("2d");
+
+        //Manage score 
+        this._score = 0;
     }
 
     /**
@@ -53,12 +56,46 @@ export class GameStage {
         return this._context;
     }
 
+    /**
+     * @return {number} Score the player currently has
+     */
+    get score() {
+        return this._score;
+    }
+
+    /**
+     * Increase the score by points amount
+     * @param {number} [points=10] How much to increase the score by 
+     */
+    increaseScore(points = 10) {
+        this._score += points;
+    }
+
+    resetScore(){
+        this._score = 0;
+    }
+
+    draw() {
+        this._context.font = "30px Arial";
+        this._context.fillStyle = "#696969";
+        this._context.textAlign = "center";
+        this._context.fillText(this._score, this._canvas.width / 2, 30);
+    }
+
+
     /*
      * Setters are empty to allow the use of getters. 
-     * To dynamically change the size of the canvas would
-     * require more functionality than this.
      */
+
+    //Don't need to set the context
     set context(context) { }
+
+    //We can only add to the score, I don't want to set it.
+    set score(score) { }
+
+    /*To change the width and height of the canvas would require more work than just using
+    these setters
+    */
     set width(width) { }
     set height(height) { }
 }
