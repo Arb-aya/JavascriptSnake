@@ -58,6 +58,14 @@ let touchX, touchY = 0;
  * @param {TouchEvent} e 
  */
 function handleStartTouch(e){
+
+    /**
+     * Prevent default swipe action happening if on the canvas
+     */
+    if(e.target === document.getElementById('gameCanvas')){
+        e.preventDefault();
+    }
+
     touchX = e.changedTouches[0].screenX;
     touchY = e.changedTouches[0].screenY;
 }
@@ -109,8 +117,8 @@ document.onreadystatechange = function () {
     
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
-            document.getElementById('gameCanvas').addEventListener("touchstart", handleStartTouch, {passive:true});
-            document.getElementById('gameCanvas').addEventListener("touchend", handleEndTouch, {passive:true});
+            document.getElementById('gameCanvas').addEventListener("touchstart", handleStartTouch);
+            document.getElementById('gameCanvas').addEventListener("touchend", handleEndTouch);
             let snake = new Snake(200, 200, gameStage.context);
 
             const keys = new KeyMappings();
