@@ -4,7 +4,7 @@ import input_loaded, { KeyMappings } from './controllers/input.js';
 //----------------------------- GLOBAL CONSTANTS / FUNCTIONS
 const INITIAL_HEIGHT = 300, INITIAL_WIDTH = 300;
 const filesLoaded = () => classes_loaded && input_loaded;
-
+let wrapAround = false;
 
 /*
  * Because of the scope imposed by modules we have to explicitly 
@@ -31,8 +31,12 @@ window.toggleSettings = function (btn) {
     }
 }
 
+window.toggleWrap = function () {
+    wrapAround = document.getElementById('wrapAround').checked;
+}
 
-function endGame(){
+
+function endGame() {
     MainLoop.stop();
 }
 
@@ -45,6 +49,8 @@ function endGame(){
 document.onreadystatechange = function () {
     if (document.readyState === "complete") {
         if (filesLoaded) {
+
+            toggleWrap();
 
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
@@ -67,7 +73,7 @@ document.onreadystatechange = function () {
                 snake.colour = colour;
             }
 
-            window.testFood = function(){
+            window.testFood = function () {
                 ff.newPosition();
             }
 
@@ -83,7 +89,7 @@ document.onreadystatechange = function () {
 
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
-                if(snake.hasEaten(ff)){
+                if (snake.hasEaten(ff)) {
                     ff.newPosition();
                     snake.grow();
                     gameStage.increaseScore();
@@ -93,8 +99,53 @@ document.onreadystatechange = function () {
             //Physics / AI movements, etc
             MainLoop.setUpdate(function (delta) {
                 snake.move(dir);
+
+
+                /**
+                 * Check to see if the snake x and y location are less than 0 
+                 * or greater than the width / height of the canvas. 
+                 * 
+                 * Then check to see if wrapAround is enabled. If so, move snake to 
+                 * opposite side of the canvas, otherwise the snake dies and the game ends.
+                 */
+                if (snake.x < 0) {
+                    if (wrapAround) {
+                        snake.x = INITIAL_WIDTH - snake.size;
+                    }
+                    else{
+                        snake.die();
+                    }
+                }
+
+                if (snake.x > INITIAL_WIDTH) {
+                    if (wrapAround) {
+                        snake.x = 0;
+                    }
+                    else{
+                        snake.die();
+                    }
+                }
+
+                if(snake.y < 0){
+                    if(wrapAround){
+                        snake.y = INITIAL_HEIGHT - snake.size;
+                    }
+                    else{
+                        snake.die();
+                    }
+                }
+
+                if(snake.y > INITIAL_HEIGHT){
+                    if(wrapAround){
+                        snake.y = 0;
+                    }
+                    else{
+                        snake.die();
+                    }
+                }
+
                 // After snake has moved, see if we need to end game
-                if(!snake.isAlive()){
+                if (!snake.isAlive()) {
                     endGame();
                 }
             });

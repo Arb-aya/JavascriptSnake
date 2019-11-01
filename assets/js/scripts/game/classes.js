@@ -442,7 +442,7 @@ export class Snake {
     }
 
     /**
-     * Getters and setters used for testing purposes
+     * Getters and setters 
      */
     get direction() {
         return this._body[0].direction;
@@ -466,6 +466,14 @@ export class Snake {
 
     set x(x) {
         this._body[0].x = x;
+    }
+
+    get size(){
+        return this._size;
+    }
+
+    set size(size){
+        this._size = size;
     }
 }
 
