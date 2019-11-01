@@ -374,6 +374,10 @@ export class Snake {
         });
     }
 
+    die(){
+        this._isAlive = false;
+    }
+    
     /**
      * Calls the move method of the SnakeHead. For each body part
      * sets the x and y coordinate to the prevX and prevY of the element
