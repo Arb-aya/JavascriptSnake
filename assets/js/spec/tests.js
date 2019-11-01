@@ -165,6 +165,12 @@ describe("Snake", function () {
         snake.y = SNAKE_Y;
         snake.colour = COLOUR; 
         snake._body[0].size = 10;
+        snake._isAlive = true;
+    });
+
+    it("Should die when die() is called", function(){
+        snake.die();
+        expect(snake.isAlive()).toBe(false);
     });
 
     it("Should return false when hasEaten() is passed an object with different x and y than the food object", function(){
@@ -183,6 +189,10 @@ describe("Snake", function () {
     describe("Getters and setters (inherited from GameObject/SnakeBody)", function () {
         it("Should be able to get the snake's colour", function(){
             expect(snake.colour).toBe(COLOUR);
+        });
+
+        it("Should be able to get the 'isAlive' property", function(){
+            expect(snake.isAlive()).toBe(true);
         });
 
         it(`Should be able to set the snake's colour to ${NEW_COLOUR}`, function(){
