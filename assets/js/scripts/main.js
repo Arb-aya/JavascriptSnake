@@ -4,7 +4,16 @@ import input_loaded, { KeyMappings } from './controllers/input.js';
 //----------------------------- GLOBAL CONSTANTS / FUNCTIONS
 const INITIAL_HEIGHT = 300, INITIAL_WIDTH = 300;
 const filesLoaded = () => classes_loaded && input_loaded;
+
+/**
+ * Does the snake wrap around the sides of the canvas?
+ */
 let wrapAround = false;
+
+// Used to change direction of the Snake
+let dir;
+
+
 
 /*
  * Because of the scope imposed by modules we have to explicitly 
@@ -40,6 +49,50 @@ function endGame() {
     MainLoop.stop();
 }
 
+
+//Used to calculate which direction the user swipes on touch screens
+let touchX, touchY = 0;
+
+/**
+ * When the touchevent starts, make a note of where the x and y of the touch was
+ * @param {TouchEvent} e 
+ */
+function handleStartTouch(e){
+    touchX = e.changedTouches[0].screenX;
+    touchY = e.changedTouches[0].screenY;
+}
+
+
+/**
+ * When the touch event ends, work out the difference between the x and y
+ * from the start. 
+ * 
+ * If the x difference is bigger consider the swipe on the horizontal axis.
+ * If the y difference is bigger consider the swipe on the vertical axis.
+ * 
+ * @param {TouchEvent} e 
+ */
+function handleEndTouch(e){
+   let diffX = touchX - e.changedTouches[0].screenX;
+   let diffY = touchY - e.changedTouches[0].screenY;
+   
+   if(Math.abs(diffX) > Math.abs(diffY)){
+       if(diffX > 0){
+           dir = "LEFT";
+       }else{
+           dir = "RIGHT";
+       }
+   }
+   else{
+       if(diffY < 0){
+          dir = "DOWN";
+       }else{
+          dir = "UP";
+       }
+   }
+}
+
+
 /*
  * When the DOM has been created and it is safe to interact
  * with, programatically create a canvas element and add it as 
@@ -50,18 +103,22 @@ document.onreadystatechange = function () {
     if (document.readyState === "complete") {
         if (filesLoaded) {
 
+            //Do we have wrap around enabled?
             toggleWrap();
 
+    
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
-            const snake = new Snake(200, 200, gameStage.context);
+            document.getElementById('gameCanvas').addEventListener("touchstart", handleStartTouch, {passive:true});
+            document.getElementById('gameCanvas').addEventListener("touchend", handleEndTouch, {passive:true});
+            let snake = new Snake(200, 200, gameStage.context);
 
             const keys = new KeyMappings();
 
             const ff = new Food(INITIAL_WIDTH, INITIAL_HEIGHT, gameStage.context, "green", 10);
             ff.newPosition();
-            let dir = snake.direction;
 
+            dir = snake.direction;
             /**
              * The frame rate that the gameloop mimics. Basically this controls 
              * how fast the snake moves
@@ -86,7 +143,6 @@ document.onreadystatechange = function () {
 
 
             // --------- MAIN LOOP FUNCTIONS
-
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
                 if (snake.hasEaten(ff)) {

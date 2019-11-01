@@ -19,12 +19,11 @@ export class GameStage {
         this._canvas.setAttribute('id', 'gameCanvas');
         this._canvas.height = height;
         this._canvas.width = width;
+
         document.getElementById("gameStage").appendChild(this._canvas);
 
-        //context object from canvas
         this._context = this._canvas.getContext("2d");
 
-        //Manage score 
         this._score = 0;
     }
 
@@ -374,10 +373,10 @@ export class Snake {
         });
     }
 
-    die(){
+    die() {
         this._isAlive = false;
     }
-    
+
     /**
      * Calls the move method of the SnakeHead. For each body part
      * sets the x and y coordinate to the prevX and prevY of the element
@@ -406,7 +405,7 @@ export class Snake {
              */
             if (this._body[0].x === this._body[i].x &&
                 this._body[0].y === this._body[i].y) {
-                    this._isAlive = false;
+                this._isAlive = false;
             }
             else {
                 this._body[i].x = this._body[i - 1].prevX;
@@ -418,7 +417,7 @@ export class Snake {
     /**
      * @return {boolean} If snake is alive (game hasn't ended)
      */
-    isAlive(){
+    isAlive() {
         return this._isAlive;
     }
 
@@ -468,11 +467,11 @@ export class Snake {
         this._body[0].x = x;
     }
 
-    get size(){
+    get size() {
         return this._size;
     }
 
-    set size(size){
+    set size(size) {
         this._size = size;
     }
 }
