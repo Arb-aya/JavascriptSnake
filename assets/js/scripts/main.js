@@ -31,6 +31,11 @@ window.toggleSettings = function (btn) {
     }
 }
 
+
+function endGame(){
+    MainLoop.stop();
+}
+
 /*
  * When the DOM has been created and it is safe to interact
  * with, programatically create a canvas element and add it as 
@@ -88,6 +93,10 @@ document.onreadystatechange = function () {
             //Physics / AI movements, etc
             MainLoop.setUpdate(function (delta) {
                 snake.move(dir);
+                // After snake has moved, see if we need to end game
+                if(!snake.isAlive()){
+                    endGame();
+                }
             });
 
             //Draw canvas elements

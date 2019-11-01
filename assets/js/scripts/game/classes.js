@@ -323,6 +323,9 @@ export class Snake {
         this._context = context;
         this._size = unitSize;
 
+        //Used to test if the game should continue. 
+        this._isAlive = true;
+
         this._body = [];
         const head = new SnakeHead(x, y, context, intitalDirection, colour, unitSize);
         this._body.push(head);
@@ -344,7 +347,6 @@ export class Snake {
         if (this._body[0].x === obj.x && this._body[0].y === obj.y) {
             return true;
         }
-
         return false;
     }
 
@@ -379,7 +381,6 @@ export class Snake {
      * @param {string} direction Direction to move the snake in.
      */
     move(direction) {
-
         /*
          * If the direction is the direction opposite of the current direction. 
          * Continue moving in the same direction previously.
@@ -394,9 +395,27 @@ export class Snake {
         this._body[0].move(direction);
 
         for (let i = 1; i < this._body.length; i++) {
-            this._body[i].x = this._body[i - 1].prevX;
-            this._body[i].y = this._body[i - 1].prevY;
+
+            /**
+             * If the head of the snake collides with another
+             * body part. End the game.
+             */
+            if (this._body[0].x === this._body[i].x &&
+                this._body[0].y === this._body[i].y) {
+                    this._isAlive = false;
+            }
+            else {
+                this._body[i].x = this._body[i - 1].prevX;
+                this._body[i].y = this._body[i - 1].prevY;
+            }
         }
+    }
+
+    /**
+     * @return {boolean} If snake is alive (game hasn't ended)
+     */
+    isAlive(){
+        return this._isAlive;
     }
 
     get colour() {
