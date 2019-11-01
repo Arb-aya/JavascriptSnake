@@ -71,7 +71,7 @@ export class GameStage {
         this._score += points;
     }
 
-    resetScore(){
+    resetScore() {
         this._score = 0;
     }
 
@@ -335,6 +335,20 @@ export class Snake {
 
 
     /**
+     * If x and y location of snakehead and obj are the same
+     * they have collided.
+     * 
+     * @param {object} obj Object to check for collision with
+     */
+    hasEaten(obj) {
+        if (this._body[0].x === obj.x && this._body[0].y === obj.y) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * 
      * @param {number} [growAmount=1] number of new body parts the snake should grow by
      */
@@ -459,20 +473,6 @@ export class Food extends GameObject {
     newPosition() {
         this.x = Food.getRandomPosition(this._size, this._canvasWidth, this._size);
         this.y = Food.getRandomPosition(this._size, this._canvasHeight, this._size);
-    }
-
-    /**
-     * Checks to see if this food object and obj have collided.
-     * Simply by checking if the x and y location are the same.
-     * 
-     * @param {object} obj Object to check for collision with
-     */
-    eatenBy(obj) {
-        if (this.x === obj.x && this.y === obj.y) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

@@ -158,12 +158,26 @@ describe("Snake", function () {
 
     const SNAKE_X = 50, SNAKE_Y = 50, NEW_X = 33, NEW_Y = 33, COLOUR = "Red", NEW_COLOUR = "Blue";
     let snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
+    let food = new Food(INITIAL_WIDTH, INITIAL_HEIGHT);
 
     beforeEach(function () {
         snake.x = SNAKE_X;
         snake.y = SNAKE_Y;
         snake.colour = COLOUR; 
         snake._body[0].size = 10;
+    });
+
+    it("Should return false when hasEaten() is passed an object with different x and y than the food object", function(){
+        food.x = 60;
+        food.y = 60;
+
+        expect(snake.hasEaten(food)).toBe(false);
+    });
+
+    it("Should return true when eatenBy() is passed an object with the same x and y as the food object", function(){
+        food.x = SNAKE_X;
+        food.y = SNAKE_Y;
+        expect(snake.hasEaten(food)).toBe(true);
     });
 
     describe("Getters and setters (inherited from GameObject/SnakeBody)", function () {
@@ -292,18 +306,6 @@ describe("food", function(){
         const oldX = food.x;
         food.newPosition();
         expect([oldY, oldX]).not.toBe([food.y, food.x]);
-    });
-
-    it("Should return false when eatenBy() is passed an object with different x and y than the food object", function(){
-        snake.x = food.x+10;
-        snake.y = food.y;
-        expect(food.eatenBy(snake)).toBe(false);
-    });
-
-    it("Should return true when eatenBy() is passed an object with the same x and y as the food object", function(){
-        snake.x = food.x;
-        snake.y = food.y;
-        expect(food.eatenBy(snake)).toBe(true);
     });
 });
 

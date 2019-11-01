@@ -78,7 +78,7 @@ document.onreadystatechange = function () {
 
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
-                if(ff.eatenBy(snake)){
+                if(snake.hasEaten(ff)){
                     ff.newPosition();
                     snake.grow();
                     gameStage.increaseScore();
