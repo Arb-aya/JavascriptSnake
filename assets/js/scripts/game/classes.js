@@ -550,7 +550,6 @@ export class HighscoreTable {
          * exit the function
          */
         if (this._scores.length === 0) {
-            console.log(`No scores yet add ${score}`);
             this._scores.push(score);
         }
         else {

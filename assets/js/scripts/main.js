@@ -140,16 +140,16 @@ document.onreadystatechange = function () {
             const keys = new KeyMappings();
 
             //Sounds
-            const eatSound = new Sound("../assets/sounds/eat.mp3");
+            const eatSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/eat.mp3");
             eatSound.attach();
 
-            const gameoverSound = new Sound("../assets/sounds/gameover.mp3");
+            const gameoverSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gameover.mp3");
             gameoverSound.attach();
 
-            const gamestartSound = new Sound("../assets/sounds/gamestart.mp3");
+            const gamestartSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gamestart.mp3");
             gamestartSound.attach();
 
-            const gamepauseSound = new Sound("../assets/sounds/gamepause.mp3");
+            const gamepauseSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gamepause.mp3");
             gamepauseSound.attach();
 
             //Player
