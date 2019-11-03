@@ -26,13 +26,8 @@ let dir;
  * Because of the scope imposed by modules we have to explicitly 
  * expose parts of it to the window object
  */
-window.startGame = function () {
-    MainLoop.start();
-}
 
-window.stopGame = function () {
-    MainLoop.stop();
-}
+
 
 /**
  * Called when the user wants to hide or show the settings panel
@@ -74,6 +69,7 @@ window.toggleSound = function () {
     soundsEnabled = document.getElementById('sounds').checked;
     document.getElementById('soundStatus').innerHTML = (soundsEnabled) ? "Enabled" : "Disabled";
 }
+
 
 
 //Used to calculate which direction the user swipes on touch screens
@@ -150,6 +146,12 @@ document.onreadystatechange = function () {
             const gameoverSound = new Sound("../assets/sounds/gameover.mp3");
             gameoverSound.attach();
 
+            const gamestartSound = new Sound("../assets/sounds/gamestart.mp3");
+            gamestartSound.attach();
+
+            const gamepauseSound = new Sound("../assets/sounds/gamepause.mp3");
+            gamepauseSound.attach();
+
             //Player
             let snake = new Snake(200, 200, gameStage.context);
             dir = snake.direction;
@@ -162,14 +164,53 @@ document.onreadystatechange = function () {
             let highscores = new HighscoreTable();
 
             /**
-             * Called when the player dies. 
-             * End the game loop; record the player's score.
+            * Called when the user wants to start / pause the game
+            */
+            window.toggleGameStatus = function () {
+                let button = document.getElementById('toggleGame');
+
+                switch (button.innerText) {
+                    case "NEW GAME":
+                    default:
+                        button.innerText = "PAUSE";
+                        newGame();
+                        break;
+
+                    case "PAUSE":
+                        button.innerText = "RESUME";
+                        gamepauseSound.play();
+                        MainLoop.stop();
+                        break;
+
+                    case "RESUME":
+                        button.innerText = "PAUSE";
+                        gamepauseSound.play();
+                        MainLoop.start();
+                        break;
+                }
+            }
+
+            /**
+             * Called when the player dies.
              */
             function endGame() {
                 gameoverSound.play();
                 MainLoop.stop();
                 highscores.add(gameStage.score);
                 document.getElementById('scoreTable').innerHTML = highscores.getScoresList();
+                document.getElementById('toggleGame').innerText = "NEW GAME";
+            }
+
+            /**
+             * Called when we start a new game
+             */
+            function newGame() {
+                gameStage.resetScore();
+                snake = new Snake(200, 200, gameStage.context);
+                food.newPosition();
+
+                gamestartSound.play();
+                MainLoop.start();
             }
 
             /**
