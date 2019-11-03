@@ -1,4 +1,4 @@
-import classes_loaded, { GameStage, Snake, Food } from "../scripts/game/classes.js";
+import classes_loaded, { GameStage, Snake, Food, HighscoreTable } from "../scripts/game/classes.js";
 import input_loaded, { KeyMappings } from "../scripts/controllers/input.js";
 
 
@@ -317,5 +317,40 @@ describe("food", function(){
         food.newPosition();
         expect([oldY, oldX]).not.toBe([food.y, food.x]);
     });
+});
+
+
+
+// --------------------------------------- Highscore Table tests
+describe("Highscores", function(){
+    let highscores = new HighscoreTable();
+
+    beforeEach(function(){
+        highscores._scores = [];
+    });
+
+    it("Should be able to add a score to the highscores", function(){
+        highscores.add(5);
+        expect(highscores._scores.find((x)=>x==5)).not.toBe(undefined);
+    });
+
+    it("Should be able to order numbers in descending order when added", function(){
+        highscores.add(5);
+        highscores.add(10);
+        expect(highscores._scores[0]).toBe(10);
+    });
+
+    it("Should be able to record scores up to the max num of scores provided (5)", function(){
+        highscores.add(5); 
+        highscores.add(10); 
+        highscores.add(3); 
+        highscores.add(6);
+        highscores.add(20);
+        highscores.add(15);
+
+        expect(highscores._scores[4]).toBe(5);
+
+    });
+
 });
 
