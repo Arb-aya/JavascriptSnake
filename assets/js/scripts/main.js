@@ -1,4 +1,4 @@
-import classes_loaded, { GameStage, Food, Snake, HighscoreTable } from './game/classes.js';
+import classes_loaded, { GameStage, Food, Snake, HighscoreTable, Sound } from './game/classes.js';
 import input_loaded, { KeyMappings } from './controllers/input.js';
 
 //----------------------------- GLOBAL CONSTANTS / FUNCTIONS
@@ -10,7 +10,14 @@ const filesLoaded = () => classes_loaded && input_loaded;
  */
 let wrapAround = false;
 
-// Used to change direction of the Snake
+/**
+ * Are sounds enabled in the game?
+ */
+let soundsEnabled = true;
+
+/**
+ * Used to change direction of the Snake
+ */
 let dir;
 
 
@@ -27,6 +34,9 @@ window.stopGame = function () {
     MainLoop.stop();
 }
 
+/**
+ * Called when the user wants to hide or show the settings panel
+ */
 window.toggleSettings = function (btn) {
     let settings = document.getElementById("settings");
     if (settings.style.display === "block") {
@@ -40,12 +50,29 @@ window.toggleSettings = function (btn) {
     }
 }
 
+/**
+ * Called when the user clicks a button to update the Snake's colour
+ */
 window.updateSnakeColour = function (colour) {
-    snake.colour = colour;
+    if (typeof snake !== "undefined") {
+        snake.colour = colour;
+    }
 }
 
+/**
+ * Called when the user wants to enable / disable the ability
+ * to wrap around the sides of the canvas
+ */
 window.toggleWrap = function () {
     wrapAround = document.getElementById('wrapAround').checked;
+}
+
+/**
+ * Called when the user wants to enable / disable sound in the game
+ */
+window.toggleSound = function () {
+    soundsEnabled = document.getElementById('sounds').checked;
+    document.getElementById('soundStatus').innerHTML = (soundsEnabled) ? "Enabled" : "Disabled";
 }
 
 
@@ -58,7 +85,6 @@ let touchX, touchY = 0;
  * @param {TouchEvent} e 
  */
 function handleStartTouch(e) {
-
     /**
      * Prevent default swipe action happening if on the canvas
      */
@@ -111,22 +137,36 @@ document.onreadystatechange = function () {
     if (document.readyState === "complete") {
         if (filesLoaded) {
 
+            //Canvas
             const gameStage = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
 
-            let snake = new Snake(200, 200, gameStage.context);
-
+            //Input control
             const keys = new KeyMappings();
 
+            //Sounds
+            const eatSound = new Sound("../assets/sounds/eat.mp3");
+            eatSound.attach();
+
+            const gameoverSound = new Sound("../assets/sounds/gameover.mp3");
+            gameoverSound.attach();
+
+            //Player
+            let snake = new Snake(200, 200, gameStage.context);
+            dir = snake.direction;
+
+            //Food
             const food = new Food(INITIAL_WIDTH, INITIAL_HEIGHT, gameStage.context, "green", 10);
             food.newPosition();
 
-            dir = snake.direction;
+            //Highscores
+            let highscores = new HighscoreTable();
 
             /**
              * Called when the player dies. 
              * End the game loop; record the player's score.
              */
             function endGame() {
+                gameoverSound.play();
                 MainLoop.stop();
                 highscores.add(gameStage.score);
                 document.getElementById('scoreTable').innerHTML = highscores.getScoresList();
@@ -152,13 +192,12 @@ document.onreadystatechange = function () {
             document.getElementById('gameCanvas').addEventListener("touchstart", handleStartTouch);
             document.getElementById('gameCanvas').addEventListener("touchend", handleEndTouch);
 
-            let highscores = new HighscoreTable();
-
 
             // --------- MAIN LOOP FUNCTIONS
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
                 if (snake.hasEaten(food)) {
+                    if (soundsEnabled) eatSound.play();
                     food.newPosition();
                     snake.grow();
                     gameStage.increaseScore();
