@@ -106,6 +106,13 @@ function handleEndTouch(e) {
     }
 }
 
+/**
+ * Used to check if sounds are enabled and if the 
+ * browser supports audio tags
+ */
+function canPlayAudio() {
+    return soundsEnabled && Modernizr.audio;
+}
 
 /*
  * When the DOM has been created and it is safe to interact
@@ -123,18 +130,24 @@ document.onreadystatechange = function () {
             //Input control
             const keys = new KeyMappings();
 
-            //Sounds
-            const eatSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/eat.mp3");
-            eatSound.attach();
+            /**
+             * Create sounds if browser supports them
+             */
+            let eatSound, gameoverSound, gamestartSound, gamepauseSound;
+            if (Modernizr.audio) {
+                eatSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/eat.mp3");
+                eatSound.attach();
 
-            const gameoverSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gameover.mp3");
-            gameoverSound.attach();
+                gameoverSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gameover.mp3");
+                gameoverSound.attach();
 
-            const gamestartSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gamestart.mp3");
-            gamestartSound.attach();
+                gamestartSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gamestart.mp3");
+                gamestartSound.attach();
 
-            const gamepauseSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gamepause.mp3");
-            gamepauseSound.attach();
+                gamepauseSound = new Sound("https://raw.githubusercontent.com/CDHayden/JavascriptSnake/master/assets/sounds/gamepause.mp3");
+                gamepauseSound.attach();
+            }
+
 
             //Player
             let snake = new Snake(200, 200, gameStage.context);
@@ -162,7 +175,7 @@ document.onreadystatechange = function () {
 
                     case "PAUSE":
                         button.innerText = "RESUME";
-                        if (soundsEnabled) {
+                        if (canPlayAudio()) {
                             gamepauseSound.play();
                         }
                         MainLoop.stop();
@@ -170,7 +183,7 @@ document.onreadystatechange = function () {
 
                     case "RESUME":
                         button.innerText = "PAUSE";
-                        if (soundsEnabled) {
+                        if (canPlayAudio()) {
                             gamepauseSound.play();
                         }
                         MainLoop.start();
@@ -191,13 +204,13 @@ document.onreadystatechange = function () {
              * Called when the player dies.
              */
             function endGame() {
-                if (soundsEnabled) {
+                if (canPlayAudio()) {
                     gameoverSound.play();
 
                 }
                 MainLoop.stop();
                 highscores.add(gameStage.score);
-                
+
                 document.getElementById('scoreTable').innerHTML = `<h2>High scores:</h2> ${highscores.getScoresList()}`;
                 document.getElementById('toggleGame').innerText = "NEW GAME";
             }
@@ -210,7 +223,7 @@ document.onreadystatechange = function () {
                 snake = new Snake(200, 200, gameStage.context);
                 food.newPosition();
 
-                if (soundsEnabled) {
+                if (canPlayAudio()) {
                     gamestartSound.play();
                 }
                 MainLoop.start();
@@ -241,10 +254,9 @@ document.onreadystatechange = function () {
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
                 if (snake.hasEaten(food)) {
-                    if (soundsEnabled) {
+                    if (canPlayAudio()) {
                         eatSound.play();
                     }
-
 
                     food.newPosition();
                     snake.grow();
