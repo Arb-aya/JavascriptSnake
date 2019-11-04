@@ -206,7 +206,6 @@ document.onreadystatechange = function () {
             function endGame() {
                 if (canPlayAudio()) {
                     gameoverSound.play();
-
                 }
                 MainLoop.stop();
                 highscores.add(gameStage.score);
@@ -228,6 +227,54 @@ document.onreadystatechange = function () {
                 }
                 MainLoop.start();
             }
+
+            /**
+             * Check to see if the snake x and y location are less than 0 
+             * or greater than the width / height of the canvas. 
+             * 
+             * Then check to see if wrapAround is enabled. If so, move snake to 
+             * opposite side of the canvas, otherwise the snake dies and the game ends.
+             */
+            function wrapAroundLogic(snake) {
+                if (snake.x <= 0) {
+                    if (wrapAround) {
+                        snake.x = INITIAL_WIDTH - snake.size;
+                    }
+                    else {
+                        snake.die();
+                    }
+                }
+
+                if (snake.x >= INITIAL_WIDTH) {
+                    if (wrapAround) {
+                        snake.x = 0;
+                    }
+                    else {
+                        snake.die();
+                    }
+                }
+
+                if (snake.y <= 0) {
+                    if (wrapAround) {
+                        snake.y = INITIAL_HEIGHT - snake.size;
+                    }
+                    else {
+                        snake.die();
+                    }
+                }
+
+                if (snake.y >= INITIAL_HEIGHT) {
+                    if (wrapAround) {
+                        snake.y = 0;
+                    }
+                    else {
+                        snake.die();
+                    }
+                }
+
+                return snake;
+            }
+
 
             /**
              * The frame rate that the gameloop mimics. Basically this controls 
@@ -268,48 +315,7 @@ document.onreadystatechange = function () {
             MainLoop.setUpdate(function (delta) {
                 snake.move(dir);
 
-                /**
-                 * Check to see if the snake x and y location are less than 0 
-                 * or greater than the width / height of the canvas. 
-                 * 
-                 * Then check to see if wrapAround is enabled. If so, move snake to 
-                 * opposite side of the canvas, otherwise the snake dies and the game ends.
-                 */
-                if (snake.x <= 0) {
-                    if (wrapAround) {
-                        snake.x = INITIAL_WIDTH - snake.size;
-                    }
-                    else {
-                        snake.die();
-                    }
-                }
-
-                if (snake.x >= INITIAL_WIDTH) {
-                    if (wrapAround) {
-                        snake.x = 0;
-                    }
-                    else {
-                        snake.die();
-                    }
-                }
-
-                if (snake.y <= 0) {
-                    if (wrapAround) {
-                        snake.y = INITIAL_HEIGHT - snake.size;
-                    }
-                    else {
-                        snake.die();
-                    }
-                }
-
-                if (snake.y >= INITIAL_HEIGHT) {
-                    if (wrapAround) {
-                        snake.y = 0;
-                    }
-                    else {
-                        snake.die();
-                    }
-                }
+                snake = wrapAroundLogic(snake);
 
                 // After snake has moved, see if we need to end game
                 if (!snake.isAlive()) {

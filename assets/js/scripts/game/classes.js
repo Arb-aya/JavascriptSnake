@@ -132,17 +132,17 @@ class GameObject {
     }
 
     /**
-     * @param {number} x the new x position 
+     * @param {number} value the new x position 
      */
-    set x(x) {
-        this._x = x;
+    set x(value) {
+        this._x = value;
     }
 
     /**
-     * @param {number} y the new y position 
+     * @param {number} value the new y position 
      */
-    set y(y) {
-        this._y = y;
+    set y(value) {
+        this._y = value;
     }
 
     /**
@@ -167,10 +167,10 @@ class GameObject {
     }
 
     /**
-     * @param {string} colour   The colour this GameObject should be
+     * @param {string} value   The colour this GameObject should be
      */
-    set colour(colour) {
-        this._colour = colour;
+    set colour(value) {
+        this._colour = value;
     }
 
     /**
@@ -181,10 +181,10 @@ class GameObject {
     }
 
     /**
-     * @param {number} size Size the GameObject should be. Used for height and width.
+     * @param {number} value Size the GameObject should be. Used for height and width.
      */
-    set size(size) {
-        this._size = size;
+    set size(value) {
+        this._size = value;
     }
 }
 
@@ -206,16 +206,19 @@ class SnakeBody extends GameObject {
 
 
     /**
-     * @param {number} x
+     * @param {number} value New x position
      */
-    set x(x) {
+    set x(value) {
         this._prevX = this._x;
-        this._x = x;
+        this._x = value;
     }
 
-    set y(y) {
+    /**
+     * @param {number} value New y position
+     */
+    set y(value) {
         this._prevY = this._y;
-        this._y = y;
+        this._y = value;
     }
 
     /** 
@@ -269,27 +272,30 @@ class SnakeHead extends SnakeBody {
         switch (direction) {
             case "UP":
                 this.y -= this.size;
-                this.x = this.x;
                 break;
 
             case "DOWN":
                 this.y += this.size;
-                this.x = this.x;
                 break;
 
             case "LEFT":
                 this.x -= this.size;
-                this.y = this.y;
                 break;
 
             case "RIGHT":
                 this.x += this.size;
-                this.y = this.y;
                 break;
 
             default:
                 return false;
         }
+
+        /**
+         * Although this seems redundant without it the snake head moves on an offset 
+         * to the body. I'm not sure why, but this does fix the issue.
+         */
+        this.x = this.x;
+        this.y = this.y;
     }
 
     /**
@@ -429,13 +435,13 @@ export class Snake {
      * If colour provided is different to current colour
      * change colour of each snakepart
      * 
-     * @param {string} colour  New colour of snake
+     * @param {string} value  New colour of snake
      */
-    set colour(colour) {
-        if (this._colour !== colour) {
-            this._colour = colour;
+    set colour(value) {
+        if (this._colour !== value) {
+            this._colour = value;
             this._body.forEach(function (part) {
-                part.colour = colour;
+                part.colour = value;
             });
         }
     }
@@ -447,8 +453,8 @@ export class Snake {
         return this._body[0].direction;
     }
 
-    set direction(direction) {
-        this._body[0].direction = direction;
+    set direction(value) {
+        this._body[0].direction = value;
     }
 
     get y() {
@@ -459,20 +465,20 @@ export class Snake {
         return this._body[0].x;
     }
 
-    set y(y) {
-        this._body[0].y = y;
+    set y(value) {
+        this._body[0].y = value;
     }
 
-    set x(x) {
-        this._body[0].x = x;
+    set x(value) {
+        this._body[0].x = value;
     }
 
     get size() {
         return this._size;
     }
 
-    set size(size) {
-        this._size = size;
+    set size(value) {
+        this._size = value;
     }
 }
 
