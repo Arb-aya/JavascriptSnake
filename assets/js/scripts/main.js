@@ -21,14 +21,6 @@ let soundsEnabled = true;
 let dir;
 
 
-
-/*
- * Because of the scope imposed by modules we have to explicitly 
- * expose parts of it to the window object
- */
-
-
-
 /**
  * Called when the user wants to hide or show the settings panel
  */
@@ -45,14 +37,6 @@ window.toggleSettings = function (btn) {
     }
 }
 
-/**
- * Called when the user clicks a button to update the Snake's colour
- */
-window.updateSnakeColour = function (colour) {
-    if (typeof snake !== "undefined") {
-        snake.colour = colour;
-    }
-}
 
 /**
  * Called when the user wants to enable / disable the ability
@@ -195,6 +179,15 @@ document.onreadystatechange = function () {
             }
 
             /**
+             * Called when the user clicks a button to update the Snake's colour
+             */
+            window.updateSnakeColour = function (colour) {
+                if (typeof snake !== "undefined") {
+                    snake.colour = colour;
+                }
+            }
+
+            /**
              * Called when the player dies.
              */
             function endGame() {
@@ -216,7 +209,9 @@ document.onreadystatechange = function () {
                 snake = new Snake(200, 200, gameStage.context);
                 food.newPosition();
 
-                gamestartSound.play();
+                if (soundsEnabled) {
+                    gamestartSound.play();
+                }
                 MainLoop.start();
             }
 
@@ -245,7 +240,11 @@ document.onreadystatechange = function () {
             //Run at beginning of frame. Process input.
             MainLoop.setBegin(function () {
                 if (snake.hasEaten(food)) {
-                    if (soundsEnabled) eatSound.play();
+                    if (soundsEnabled) {
+                        eatSound.play();
+                    }
+
+
                     food.newPosition();
                     snake.grow();
                     gameStage.increaseScore();
