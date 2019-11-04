@@ -625,7 +625,7 @@ export class Sound {
      * Because this cannot be done in the contrustor (this hasn't finished constructing)
      * Onus is on the user to do it after constructing a sound. 
      */
-    attach(){
+    attach() {
         document.body.appendChild(this._sound);
     }
 

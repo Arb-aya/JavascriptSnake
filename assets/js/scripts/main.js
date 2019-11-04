@@ -234,10 +234,17 @@ document.onreadystatechange = function () {
              * 
              * Then check to see if wrapAround is enabled. If so, move snake to 
              * opposite side of the canvas, otherwise the snake dies and the game ends.
+             * 
+             * Exposed to the window so that it can be tested. I also had to add the testing flag
+             * as I didn't know how to expost the "wrapAround" variable from this file in the test.js
+             * file.
+             * 
+             * @param {Snake} snake The snake object
+             * @param {boolean} testing Are we testing this function or not.
              */
-            function wrapAroundLogic(snake) {
+            window.wrapAroundLogic = function (snake, testing = false) {
                 if (snake.x <= 0) {
-                    if (wrapAround) {
+                    if (wrapAround || testing) {
                         snake.x = INITIAL_WIDTH - snake.size;
                     }
                     else {
@@ -246,7 +253,7 @@ document.onreadystatechange = function () {
                 }
 
                 if (snake.x >= INITIAL_WIDTH) {
-                    if (wrapAround) {
+                    if (wrapAround || testing) {
                         snake.x = 0;
                     }
                     else {
@@ -255,7 +262,7 @@ document.onreadystatechange = function () {
                 }
 
                 if (snake.y <= 0) {
-                    if (wrapAround) {
+                    if (wrapAround || testing) {
                         snake.y = INITIAL_HEIGHT - snake.size;
                     }
                     else {
@@ -264,7 +271,7 @@ document.onreadystatechange = function () {
                 }
 
                 if (snake.y >= INITIAL_HEIGHT) {
-                    if (wrapAround) {
+                    if (wrapAround || testing) {
                         snake.y = 0;
                     }
                     else {

@@ -11,18 +11,18 @@ describe("GameStage class", function () {
         expect(document.getElementById("gameCanvas")).not.toEqual(null);
     });
 
-    it("Should be able to get the game score", function(){
+    it("Should be able to get the game score", function () {
         game.resetScore();
         expect(game.score).toBe(0);
     });
 
-    it("Should be able to set the increase the game score", function(){
+    it("Should be able to set the increase the game score", function () {
         const score = game.score;
         game.increaseScore();
-        expect(game.score).toBe(score+10);
+        expect(game.score).toBe(score + 10);
     });
 
-    it("Should be able to reset the game score", function(){
+    it("Should be able to reset the game score", function () {
         game.increaseScore();
         game.resetScore();
         expect(game.score).toBe(0);
@@ -163,39 +163,39 @@ describe("Snake", function () {
     beforeEach(function () {
         snake.x = SNAKE_X;
         snake.y = SNAKE_Y;
-        snake.colour = COLOUR; 
+        snake.colour = COLOUR;
         snake._body[0].size = 10;
         snake._isAlive = true;
     });
 
-    it("Should die when die() is called", function(){
+    it("Should die when die() is called", function () {
         snake.die();
-        expect(snake.isAlive()).toBe(false);
+        expect(snake.isAlive()).toBeFalse();
     });
 
-    it("Should return false when hasEaten() is passed an object with different x and y than the food object", function(){
+    it("Should return false when hasEaten() is passed an object with different x and y than the food object", function () {
         food.x = 60;
         food.y = 60;
 
-        expect(snake.hasEaten(food)).toBe(false);
+        expect(snake.hasEaten(food)).toBeFalse();
     });
 
-    it("Should return true when eatenBy() is passed an object with the same x and y as the food object", function(){
+    it("Should return true when eatenBy() is passed an object with the same x and y as the food object", function () {
         food.x = SNAKE_X;
         food.y = SNAKE_Y;
-        expect(snake.hasEaten(food)).toBe(true);
+        expect(snake.hasEaten(food)).toBeTrue();
     });
 
     describe("Getters and setters (inherited from GameObject/SnakeBody)", function () {
-        it("Should be able to get the snake's colour", function(){
+        it("Should be able to get the snake's colour", function () {
             expect(snake.colour).toBe(COLOUR);
         });
 
-        it("Should be able to get the 'isAlive' property", function(){
-            expect(snake.isAlive()).toBe(true);
+        it("Should be able to get the 'isAlive' property", function () {
+            expect(snake.isAlive()).toBeTrue();
         });
 
-        it(`Should be able to set the snake's colour to ${NEW_COLOUR}`, function(){
+        it(`Should be able to set the snake's colour to ${NEW_COLOUR}`, function () {
             snake.colour = NEW_COLOUR;
             expect(snake._body[0].colour).toBe(NEW_COLOUR);
         });
@@ -243,7 +243,7 @@ describe("Snake", function () {
 
     describe("Move function", function () {
 
-        beforeEach(function(){
+        beforeEach(function () {
             snake.x = SNAKE_X;
             snake.y = SNAKE_Y;
             snake.direction = "UP";
@@ -277,41 +277,99 @@ describe("Snake", function () {
             expect(snake.direction).toBe("LEFT");
         });
 
-        it("If moving RIGHT should not be able to move immediately RIGHT", function(){
+        it("If moving RIGHT should not be able to move immediately RIGHT", function () {
             snake.move("RIGHT");
             snake.move("LEFT");
             expect(snake.direction).toBe("RIGHT");
         });
 
-        it("If moving UP should not be able to move immediately DOWN", function(){
+        it("If moving UP should not be able to move immediately DOWN", function () {
             snake.move("UP");
             snake.move("DOWN");
             expect(snake.direction).toBe("UP");
         });
 
-        it("If moving DOWN should not be able to move immediately UP", function(){
+        it("If moving DOWN should not be able to move immediately UP", function () {
             /*
              * Snake moves up by default, so to be able to test moving down we need move
              * to be moving in a direction other than up.
              */
-            snake.move("LEFT"); 
+            snake.move("LEFT");
             snake.move("DOWN");
             snake.move("UP");
             expect(snake.direction).toBe("DOWN");
+        });
+
+        it("Should die if snake's x is greater than canvas width and wrap around is disabled", function () {
+            snake.x = 300;
+            snake.move("RIGHT");
+            snake = wrapAroundLogic(snake);
+            expect(snake.isAlive()).toBeFalse();
+        });
+
+        it("Should die if snake's x is less than 0 and wrap around is disabled", function () {
+            snake.x = 0;
+            snake.move("LEFT");
+            snake = wrapAroundLogic(snake);
+            expect(snake.isAlive()).toBeFalse();
+        });
+
+        it("Should have an x of 0 if snake's x is greater than canvas width and wrap around is enabled", function () {
+            snake.x = 300;
+            snake.move("RIGHT");
+            snake = wrapAroundLogic(snake, true);
+            expect(snake.x).toBe(0);
+        });
+
+        it("Should have an x of 290 if snake's x is less than 0 and wrap around is enabled", function () {
+            snake.x = 0;
+            snake.move("LEFT");
+            snake = wrapAroundLogic(snake, true);
+            expect(snake.x).toBe(290);
+        });
+
+        it("Should die if snake's y is greater than canvas height and wrap around is disabled", function () {
+            snake.y = 300;
+            snake.move("LEFT"); //Can't move down straight away as default is up. Code prevents moving in direct opposites.
+            snake.move("DOWN");
+            snake = wrapAroundLogic(snake);
+            expect(snake.isAlive()).toBeFalse();
+        });
+
+        it("Should die if snake's y is less than 0 and wrap around is disabled", function () {
+            snake.y = 0;
+            snake.move("UP");
+            snake = wrapAroundLogic(snake);
+            expect(snake.isAlive()).toBeFalse();
+        });
+
+        it("Should have a y of 0 if snake's y is greater than canvas height and wrap around is enabled", function () {
+            snake.y = 300;
+            snake.move("LEFT"); 
+            snake.move("DOWN");
+            snake = wrapAroundLogic(snake,true);
+            expect(snake.y).toBe(0);
+        });
+
+        it("Should have an y of 290 if snake's x is less than 0 and wrap around is enabled", function () {
+            snake.y = 0;
+            snake.move("UP");
+            snake = wrapAroundLogic(snake, true);
+            expect(snake.y).toBe(290);
         });
     })
 });
 
 // --------------------------------------- Food Tests
-describe("food", function(){
+describe("food", function () {
     const INITIAL_WIDTH = 300, INITIAL_HEIGHT = 300;
     const game = new GameStage(INITIAL_WIDTH, INITIAL_HEIGHT);
-    const food = new Food(INITIAL_WIDTH,INITIAL_HEIGHT,game.context);
+    const food = new Food(INITIAL_WIDTH, INITIAL_HEIGHT, game.context);
     const SNAKE_X = 50, SNAKE_Y = 50;
     const snake = new Snake(SNAKE_X, SNAKE_Y, game.context);
 
 
-    it("Should generate a new position when \"newPosition()\" is called",function(){
+    it("Should generate a new position when \"newPosition()\" is called", function () {
         const oldY = food.y;
         const oldX = food.x;
         food.newPosition();
@@ -322,28 +380,28 @@ describe("food", function(){
 
 
 // --------------------------------------- Highscore Table tests
-describe("Highscores", function(){
+describe("Highscores", function () {
     let highscores = new HighscoreTable();
 
-    beforeEach(function(){
+    beforeEach(function () {
         highscores._scores = [];
     });
 
-    it("Should be able to add a score to the highscores", function(){
+    it("Should be able to add a score to the highscores", function () {
         highscores.add(5);
-        expect(highscores._scores.find((x)=>x==5)).not.toBe(undefined);
+        expect(highscores._scores.find((x) => x == 5)).not.toBe(undefined);
     });
 
-    it("Should be able to order numbers in descending order when added", function(){
+    it("Should be able to order numbers in descending order when added", function () {
         highscores.add(5);
         highscores.add(10);
         expect(highscores._scores[0]).toBe(10);
     });
 
-    it("Should be able to record scores up to the max num of scores provided (5)", function(){
-        highscores.add(5); 
-        highscores.add(10); 
-        highscores.add(3); 
+    it("Should be able to record scores up to the max num of scores provided (5)", function () {
+        highscores.add(5);
+        highscores.add(10);
+        highscores.add(3);
         highscores.add(6);
         highscores.add(20);
         highscores.add(15);
