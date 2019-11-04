@@ -178,13 +178,17 @@ document.onreadystatechange = function () {
 
                     case "PAUSE":
                         button.innerText = "RESUME";
-                        gamepauseSound.play();
+                        if (soundsEnabled) {
+                            gamepauseSound.play();
+                        }
                         MainLoop.stop();
                         break;
 
                     case "RESUME":
                         button.innerText = "PAUSE";
-                        gamepauseSound.play();
+                        if (soundsEnabled) {
+                            gamepauseSound.play();
+                        }
                         MainLoop.start();
                         break;
                 }
@@ -194,7 +198,10 @@ document.onreadystatechange = function () {
              * Called when the player dies.
              */
             function endGame() {
-                gameoverSound.play();
+                if (soundsEnabled) {
+                    gameoverSound.play();
+
+                }
                 MainLoop.stop();
                 highscores.add(gameStage.score);
                 document.getElementById('scoreTable').innerHTML = highscores.getScoresList();
