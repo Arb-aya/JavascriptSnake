@@ -13,13 +13,28 @@
 
     <!-- Modernizr -->
     <script src="assets/js/libs/modernizr.js"></script>
-    
+
     <!-- Site Scripts -->
     <script src="assets/js/scripts/main.js" type="module"></script>
 
     <!-- SITE CSS -->
     <link rel="stylesheet" href="assets/css/main.css" />
 
+    <!--
+        If the browser doesn't support canvases load in a polyfil "explorercanvas"
+        Code taken from:
+        https://stackoverflow.com/questions/14521108/dynamically-load-js-inside-js
+    -->
+    <script>
+        if (!Modernizr.canvas) {
+            const script = document.createElement('script');
+            script.onload = function () {
+
+            };
+            script.src = "assets/js/libs/excanvas.js";
+            document.head.appendChild(script);
+        }
+    </script>
 </head>
 
 <body>
@@ -53,7 +68,8 @@
 
             <div id="soundSettings">
                 <label for="sound">Sounds: </label>
-                <input name="sounds" id="sounds" type="checkbox" onchange="toggleSound()" checked><span id="soundStatus">Enabled</span>
+                <input name="sounds" id="sounds" type="checkbox" onchange="toggleSound()" checked><span
+                    id="soundStatus">Enabled</span>
             </div>
         </div>
     </div>
