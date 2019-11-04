@@ -197,7 +197,8 @@ document.onreadystatechange = function () {
                 }
                 MainLoop.stop();
                 highscores.add(gameStage.score);
-                document.getElementById('scoreTable').innerHTML = highscores.getScoresList();
+                
+                document.getElementById('scoreTable').innerHTML = `<h2>High scores:</h2> ${highscores.getScoresList()}`;
                 document.getElementById('toggleGame').innerText = "NEW GAME";
             }
 
@@ -262,7 +263,7 @@ document.onreadystatechange = function () {
                  * Then check to see if wrapAround is enabled. If so, move snake to 
                  * opposite side of the canvas, otherwise the snake dies and the game ends.
                  */
-                if (snake.x < 0) {
+                if (snake.x <= 0) {
                     if (wrapAround) {
                         snake.x = INITIAL_WIDTH - snake.size;
                     }
@@ -271,7 +272,7 @@ document.onreadystatechange = function () {
                     }
                 }
 
-                if (snake.x > INITIAL_WIDTH) {
+                if (snake.x >= INITIAL_WIDTH) {
                     if (wrapAround) {
                         snake.x = 0;
                     }
@@ -280,7 +281,7 @@ document.onreadystatechange = function () {
                     }
                 }
 
-                if (snake.y < 0) {
+                if (snake.y <= 0) {
                     if (wrapAround) {
                         snake.y = INITIAL_HEIGHT - snake.size;
                     }
@@ -289,7 +290,7 @@ document.onreadystatechange = function () {
                     }
                 }
 
-                if (snake.y > INITIAL_HEIGHT) {
+                if (snake.y >= INITIAL_HEIGHT) {
                     if (wrapAround) {
                         snake.y = 0;
                     }
