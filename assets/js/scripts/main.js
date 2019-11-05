@@ -20,6 +20,10 @@ let soundsEnabled = true;
  */
 let dir;
 
+/**
+ * Used to store colour selected inbetween games
+ */
+let selectedColour;
 
 /**
  * Called when the user wants to hide or show the settings panel
@@ -152,6 +156,7 @@ document.onreadystatechange = function () {
             //Player
             let snake = new Snake(200, 200, gameStage.context);
             dir = snake.direction;
+            selectedColour = snake.colour;
 
             //Food
             const food = new Food(INITIAL_WIDTH, INITIAL_HEIGHT, gameStage.context, "green", 10);
@@ -195,6 +200,7 @@ document.onreadystatechange = function () {
              * Called when the user clicks a button to update the Snake's colour
              */
             window.updateSnakeColour = function (colour) {
+                selectedColour = colour;
                 if (typeof snake !== "undefined") {
                     snake.colour = colour;
                 }
@@ -220,6 +226,7 @@ document.onreadystatechange = function () {
             function newGame() {
                 gameStage.resetScore();
                 snake = new Snake(200, 200, gameStage.context);
+                snake.colour = selectedColour;
                 food.newPosition();
 
                 if (canPlayAudio()) {
