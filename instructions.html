@@ -86,62 +86,18 @@
         <div class="row justify-content-center">
 
             <!-- SETTINGS -->
-            <div class="col-12 order-3 col-lg-4 order-lg-1 text-center mainDiv">
-                <!-- TOGGLE SETTING VISIBILITY-->
-                <span onclick="toggleSettings()">
-                    <i class="fas fa-cog"></i>
-                    <h2 id="settingsVisibilityText"> Hide Settings <i class="fas fa-caret-up"></i></h2>
-                </span>
-                <!-- ./TOGGLE SETTING VISIBILITY-->
+            <div class="col-12 mainDiv">
+                <p class="subHeading">Aim of the game</p>
+                <p> Eat as many pieces of food as you can. Each time you eat food you will score 10 points
+                    and your snake will grow. Avoid hitting yourself or walls (if enabled).
+                </p>
 
-                <div class="row" id="settings">
-                    <div class="col-12 pt-2" id="snakeColour">
-                        <span> Snake Colour: </span><br />
-                        <button onclick="updateSnakeColour('#AC0405')"><i
-                                class="fas fa-circle colourOption red"></i></button>
-                        <button onclick="updateSnakeColour('#060778')"><i
-                                class="fas fa-circle colourOption blue"></i></button>
-                        <button onclick="updateSnakeColour('#016105')"><i
-                                class="fas fa-circle colourOption green"></i></button>
-                        <button onclick="updateSnakeColour('#545506')"><i
-                                class="fas fa-circle colourOption gold"></i></button>
-                        <button onclick="updateSnakeColour('#5401F1')"><i
-                                class="fas fa-circle colourOption purple"></i></button>
-                    </div>
-
-                    <div class="col-12 pt-2" id="snakeWrapAround">
-                        <label for="wrapAround">Walls</label>
-                        <input name="wrapAround" id="wrapAround" type="checkbox" onchange="toggleWrap()" checked>
-                        <span id="wallStatus"> Enabled </span>
-                    </div>
-
-                    <div class="col-12 pt-2" id="snakeSounds">
-                        <label for="sound"><i class="fas fa-volume-up"><span class="sr-only"> Sound </span></i> </label>
-                        <input name="sounds" id="sounds" type="checkbox" onchange="toggleSound()" checked><span
-                            id="soundStatus">Enabled</span>
-                    </div>
-
-                </div>
+                <p class="subHeading"> Controls </p>
+                <p> On a computer use the arrow keys to change the snake's direction.</p>
+                <p> On a touch screen device swipe in the direction you want to move. Make sure you swipe on
+                    the game area (the white box).
+                </p>
             </div>
-            <!-- ./SETTINGS-->
-
-            <!-- MAIN GAME AREA-->
-            <div class="col-12 order-1 col-lg-4 order-lg-2 text-center">
-                <div id="gameStage">
-                </div>
-
-                <div>
-                    <button id="toggleGame" onclick="toggleGameStatus()">START</button>
-                </div>
-            </div>
-            <!-- ./MAIN GAME AREA-->
-
-            <!-- HIGHSCORES-->
-            <div class="col-12 col-lg-4 order-2 order-lg-3 text-center mainDiv" id="scoreTable">
-                <h2> High scores: </h2>
-            </div>
-            <!-- ./HIGHSCORES -->
-
         </div>
         <!-- ./ROW -->
     </div>

@@ -1,4 +1,156 @@
-canvas {
-    border: black 1px solid;
+html {
+    font-size: 100%;
 }
 
+body {
+    background-color: #001B28;
+    color: #F0F760;
+}
+
+.mainDiv {
+    border: 0.07143rem solid #F0F760;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/*     ---------------------- HEADER and NAVBAR */
+
+.headerText {
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-weight: bolder;
+    padding: 1rem;
+    margin: 0.14rem;
+    background-color: #001B28;
+    color: #F0F760;
+    text-align: center;
+}
+
+.navbar {
+    padding: 0;
+    background-color: #001B28;
+    border-bottom: 0.07143rem solid #F0F760;
+}
+
+.nav-link {
+    color: #F0F760;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    transition: all 0.35s ease;
+    border-right: 0.07143rem solid #F0F760;
+}
+
+.nav-link:hover {
+    color: #001B28;
+    background-color: #F0F760;
+    letter-spacing: 0.2rem;
+}
+
+.navbar-toggler-icon i{
+    color: #F0F760;
+}
+
+.jumbotron {
+    margin: 0;
+    padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
+    color: #001B28;
+    background-color: #F0F760;
+}
+
+/*     ---------------------- CANVAS and START BUTTON */
+
+canvas {
+    border: #F0F760 0.07143rem solid;
+    background-color: #ffffff;
+}
+
+#toggleGame {
+    background-color: #001B28;
+    color: #F0F760;
+    border: 0.07143rem solid #F0F760;
+}
+
+/*     ------------------------------------ SETTINGS */
+
+#settingsVisibilityText {
+    display: inline-block;
+}
+
+/*     ---------------------- Snake Colour settings */
+
+.colourOption {
+    font-size: 2.5rem;
+}
+
+#snakeColour>button {
+    background-color: #ffffff;
+    border: 0.07143rem solid #ffffff;
+}
+
+/*     ---------------------- COLOURS */
+
+.blue {
+    color: #060778;
+}
+
+.green {
+    color: #016105;
+}
+
+.gold {
+    color: #545506;
+}
+
+.purple {
+    color: #5401F1;
+}
+
+.red {
+    color: #AC0405;
+}
+
+/*     ------------------------------------ HEADER TAGS */
+
+h1, h2, h3, h4, h5 {
+    text-transform: uppercase;
+}
+
+.subHeading{
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: underline;
+}
+
+/*     ------------------------------------ HIGHSCORE */
+
+/* 
+ Code for counters taken from: 
+ https://stackoverflow.com/questions/23610151/can-you-style-ordered-list-numbers
+*/
+
+#scoreTable>ol {
+    list-style: none;
+    counter-reset: item;
+}
+
+#scoreTable>ol>li {
+    counter-increment: item;
+    list-style-position: outside;
+    margin-bottom: 0.3571rem;
+    font-weight: bold;
+}
+
+#scoreTable>ol>li:before {
+    margin-right: 0.7143rem;
+    content: counter(item);
+    background: #F0F760;
+    border-radius: 50%;
+    color: #001B28;
+    width: 2rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    display: inline-block;
+}

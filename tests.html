@@ -19,6 +19,16 @@
     <!-- Modernizr -->
     <script src="assets/js/libs/modernizr.js"></script>
 
+
+    <!-- FONTAWESOME -->
+    <script src="https://kit.fontawesome.com/4c578b24ae.js" crossorigin="anonymous"></script>
+
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- SITE CSS -->
+    <link rel="stylesheet" href="assets/css/main.css" />
+
     <!-- SITE SCRIPTS -->
     <script src="assets/js/scripts/main.js" type="module"></script>
 
@@ -27,8 +37,50 @@
 </head>
 
 <body>
-    <div id="gameStage">
+    <header>
+        <div class="jumbotron jumbotron-fluid">
+            <span class="headerText"> s </span>
+            <span class="headerText"> n </span>
+            <span class="headerText"> a </span>
+            <span class="headerText"> k </span>
+            <span class="headerText"> e </span>
+        </div>
+        <nav class="navbar navbar-expand-lg">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Play <span class="sr-only"> current </span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="instructions.html">Instructions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="tests.html">Tests</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <!-- 
+        4 canvases are created on the test page. I presume it's something to do with
+        the interaction with Jasmine. 
+
+        Just hide them for now.
+    -->
+    <div id="gameStage" style="visibility: hidden;">
     </div>
+
+
+    <!-- JS needed for bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 
 </html>
