@@ -28,16 +28,16 @@ let selectedColour;
 /**
  * Called when the user wants to hide or show the settings panel
  */
-window.toggleSettings = function (btn) {
+window.toggleSettings = function () {
     let settings = document.getElementById("settings");
-    if (settings.style.display === "block") {
-        settings.style.display = "none";
-        btn.childNodes[0].nodeValue = "Show settings";
+    if (settings.style.display === "none") {
+        settings.style.display = "block";
+        document.getElementById("settingsVisibilityText").innerHTML = 'Hide Settings <i class="fas fa-caret-up">';
 
     }
     else {
-        settings.style.display = "block";
-        btn.childNodes[0].nodeValue = "Hide settings";
+        settings.style.display = "none";
+        document.getElementById("settingsVisibilityText").innerHTML = 'Show Settings <i class="fas fa-caret-down">';
     }
 }
 
@@ -154,12 +154,12 @@ document.onreadystatechange = function () {
 
 
             //Player
-            let snake = new Snake(200, 200, gameStage.context);
+            let snake = new Snake(200, 200, gameStage.context, 5, "UP", 10, "#AC0405");
             dir = snake.direction;
             selectedColour = snake.colour;
 
             //Food
-            const food = new Food(INITIAL_WIDTH, INITIAL_HEIGHT, gameStage.context, "green", 10);
+            const food = new Food(INITIAL_WIDTH, INITIAL_HEIGHT, gameStage.context, "#016105", 10);
             food.newPosition();
 
             //Highscores
