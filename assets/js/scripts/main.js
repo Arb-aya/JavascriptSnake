@@ -47,7 +47,15 @@ window.toggleSettings = function () {
  * to wrap around the sides of the canvas
  */
 window.toggleWrap = function () {
-    wrapAround = document.getElementById('wrapAround').checked;
+    wrapAround = !document.getElementById('wrapAround').checked;
+
+    if(wrapAround){
+        document.getElementById("wallStatus").innerText = "Disabled";
+    }
+    else{
+        document.getElementById("wallStatus").innerText = "Enabled";
+
+    }
 }
 
 /**
