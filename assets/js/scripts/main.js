@@ -47,14 +47,23 @@ window.toggleSettings = function () {
  * to wrap around the sides of the canvas
  */
 window.toggleWrap = function () {
-    wrapAround = !document.getElementById('wrapAround').checked;
+    let wrapAroundEl = document.getElementById('wallStatus');
+    let iconEl = document.getElementById('wallIcon');
 
-    if (wrapAround) {
-        document.getElementById("wallStatus").innerText = "Off";
-    }
-    else {
-        document.getElementById("wallStatus").innerText = "On";
-
+    if (wrapAroundEl.innerText === "On") {
+        wrapAround = true;
+        wrapAroundEl.innerText = "Off";
+        iconEl.classList.remove('fa-check');
+        iconEl.classList.add('fa-times');
+        iconEl.classList.remove('green');
+        iconEl.classList.add('red');
+    } else {
+        wrapAround = false;
+        wrapAroundEl.innerText = "On";
+        iconEl.classList.remove('fa-times');
+        iconEl.classList.add('fa-check');
+        iconEl.classList.remove('red');
+        iconEl.classList.add('green');
     }
 }
 
@@ -70,12 +79,16 @@ window.toggleSound = function () {
         textEl.innerText = "Off";
         iconEl.classList.remove("fa-volume-up");
         iconEl.classList.add("fa-volume-mute");
+        iconEl.classList.remove('green');
+        iconEl.classList.add('red');
     }
     else {
         soundsEnabled = true;
         textEl.innerText = "On";
         iconEl.classList.remove("fa-volume-mute");
         iconEl.classList.add("fa-volume-up");
+        iconEl.classList.remove('red');
+        iconEl.classList.add('green');
     }
 }
 

@@ -108,14 +108,21 @@
                     </div>
 
                     <div class="col-12 pt-2" id="snakeWrapAround">
-                        <label for="wrapAround">Walls</label>
-                        <input name="wrapAround" id="wrapAround" type="checkbox" onchange="toggleWrap()" checked>
-                        <span id="wallStatus"> On </span>
+                        <span onClick="toggleWrap()"> Toggle walls:
+                            <i id="wallIcon" class="fas fa-check green">
+                                <span class="sr-only"> Walls </span>
+                            </i>
+                            <span class="sr-only" id="wallStatus"> On </span>
+                        </span>
                     </div>
 
                     <div class="col-12 pt-2" id="snakeSounds">
-                        <label for="sound"><i id="soundIcon" class="fas fa-volume-up" onClick="toggleSound()">
-                                <span class="sr-only"> Sound </span></i> </label>
+                        <span onClick="toggleSound()"> Toggle sound:
+                            <i id="soundIcon" class="fas fa-volume-up green">
+                                <span class="sr-only"> Sound </span>
+                            </i>
+                        </span>
+
                         <span class="sr-only" id="soundStatus">On</span>
                     </div>
                 </div>
