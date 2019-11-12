@@ -5,6 +5,8 @@ Inspired by the project suggestion of creating a memory game with sounds, I want
 
 After conversing with my mentor I had two viable options, pong or snake. I chose snake (simply because I find it more fun to play).
 
+This site does not function on Internet Explorer as it uses ES6 features.
+
 ## UX
 ### User stories
 
@@ -15,7 +17,10 @@ After conversing with my mentor I had two viable options, pong or snake. I chose
 5. As a site user, I should be able to find out how to play the game.
 6. As a site user, I should be able to change the colour of the snake.
 
-### TODO: Wireframes(?)
+### Wireframes
+
+[Click here to view Desktop Wireframe](./assets/images/desktop.png)
+[Click here to view Tablet/mobile wireframe](./assets/images/other.png)
 
 ## Features:
 
@@ -34,6 +39,7 @@ After conversing with my mentor I had two viable options, pong or snake. I chose
 * Allow the user to map custom keys to directions (for example W: up, S: down, A:left, D:right)
 * Allow the user the select different size canvas (Small, Medium or Large).
 * Implement more advanced swipe detection that allows the user to "drag" the snake around the canvas. At the moment the user must use a series of broken swipes.
+* Write the code using ES5 to provide support for Internet Explorer.
 
 
 ## How the code works
@@ -58,7 +64,7 @@ To show the overall structure of, and relationships between, classes used in thi
 
 **main.js** Brings together all of the previous classes. Handles events (key presses and touch events), and reads users settings options (choosing snake colour, toggling walls and toggling sounds).
 
-**Program Flow**
+### Program Flow
 
 1. Create GameStage class.
 	* GameStage creates a HTML 5 canvas.
@@ -111,7 +117,7 @@ Used to host and deploy the final version of the site, as well as provide an onl
 - [Bootstrap](https://getbootstrap.com/)
 Used as the foundation of each page. Bootstrap allowed me to quickly provide a mobile first, responsive structure to the website.
 
--[stackoverflow](https://www.stackoverflow.com) Helped me troubleshoot many issues during development. Also provided code snippets used in the project (credited in code and below).
+- [stackoverflow](https://www.stackoverflow.com) Helped me troubleshoot many issues during development. Also provided code snippets used in the project (credited in code and below).
 
 - [freecodecamp](https://www.freecodecamp.org/learn/)
  Tutorials on Javascript, specifically ES6.
@@ -147,15 +153,55 @@ Canvas polyfill for if the users browser doesn't support the HTML 5 canvas.
 
 - [https://autoprefixer.github.io/](https://autoprefixer.github.io/) Used to add browser specific prefixes to my css.
 
--[https://validator.w3.org/](https://validator.w3.org/) Used to validate the HTML of the site.
+- [https://validator.w3.org/](https://validator.w3.org/) Used to validate the HTML of the site.
 
 ## Testing
 
+Testing of the site was done manually and automatically throughout the development process. 
 
+I have used Jasmine to develop automatic tests for the Javascript portion of the project. As a new feature was developed I wrote a test for it, so tests were developed incrementally with features. You can view the tests here:
+
+[https://cdhayden.github.io/JavascriptSnake/tests.html](https://cdhayden.github.io/JavascriptSnake/tests.html)
+
+I also manually tested the project by interacting with the site, and logging values to the console to test they were as I expected. 
+
+Some functionality could only be tested manually, namely the use of "swipes" on touch screen devices to move the snake. To test this I have used my ipad, my android phone and have asked family and friends to play on their mobile devices. To the best of my knowledge it functions sufficiently.
+
+I also tested the responsive layout of the site manually, via dev tools, to make sure it looked OK at each breakpoint.
+
+I have also tested the site in a number of different browsers (microsoft edge, google chrome, firefox, opera and safari). By using [https://caniuse.com/](https://caniuse.com/) I estimate that I have around 80% - 85% user support.  I have tried to increase this where possible by using polyfills for canvas elements and preventing the use of audio elements if not supported.
+
+### Bugs / Problems
+
+* **Handling Touch Events** - Whilst implementing touch event handlers, the google chrome console warned against of "active listeners". After reading up on this it was recommended to use passive event listeners for touch events. Using passive event listeners made the warning dissappear, but it meant that swiping down on mobile phones (to move the snake down) made the page refresh. After googling the problem I found I had to use the "preventDefault" method via an active listener for touchevents to stop this.
+
+* **ES6 Modules and testing Jasmine** - I found it difficult to test some elements of main.js. After reading up on the issue I found I had to explicilty expose functions and variables to the window object for Jasmine to be able to test them. 
+
+* **Testing the getContext method in GameStage.js** - I currently test that the return value of the method isn't null. However, this doesn't explicitly test for a CanvasRendering2D but I am unsure of how to test for this.
+
+* **Poor planning** - Poor planning of the code at the beginning meant the the code went through a number of drastic revisions (notable in the git history). I hope this is an important lesson in thinking about the code before jumping in head first.
+
+* **Snake move() method** - For the longest time the snake head would move at an offset from the body of the snake. After painstakingly logging every function call and variable value and stepping through countless cycles, I noticed that one of the position co-ordinates was not being properly updated. Which led to the two lines of code in snake.js at 114 and 115:
+
+` this.x = this.x;`
+`this.y = this.y;`
+
+Whilst these two lines of code seem stupid, they do fix this issue. I'm not so sure as to why, but I gave into frustration and just accepted the magic lines of code.
 
 ## Deployment
 
+You can view the deployed site here: [https://github.com/CDHayden/JavascriptSnake](https://github.com/CDHayden/JavascriptSnake)
 
+### How was the site deployed
+
+To deploy thsi site my local git repository was pushed to a github repository and then hosted on github pages.
+
+### To deploy this project locally:
+Follow this link to the GitHub Repository: [https://github.com/CDHayden/JavascriptSnake](https://github.com/CDHayden/JavascriptSnake)
+Click on the 'Clone or Download' button.
+Copy the URL provided.
+Open a bash terminal, move to your desired directory.
+Type 'git clone' and paste in the URL.
 
 ## Credits
 
@@ -171,35 +217,17 @@ The code used in the sound class was predominately taken from this w3schools pag
  Help with the maths used in the Food classes getRandomPosition method was taken from:
  [https://stackoverflow.com/questions/11022488/javascript-using-round-to-the-nearest-10/11022517](https://stackoverflow.com/questions/11022488/javascript-using-round-to-the-nearest-10/11022517)
 
+The hide settings button didn't work on the first click. This was solved by reading: [https://stackoverflow.com/questions/28100979/button-does-not-work-on-the-first-click](https://stackoverflow.com/questions/28100979/button-does-not-work-on-the-first-click)
+
 ### Media 
-Sounds from zapsplat
+Sounds from [zapsplat](https://www.zapsplat.com/) 
 
 ### Acknowledgements 
 
  [The w3schools html5 game tutorial](https://www.w3schools.com/graphics/game_intro.asp) provided a very valuable first step in developing this as it show cased the basics of interacting with the canvas via javascript.
+
 ---
 
 
 
 
-Problems: 
-
-EventListeners - Dev tools console complained about having active listeners. After reading up on it, they recommended using passive event listeners for certain "scrolling" events. As I was using touch events these were included. Setting it to passive made the warning in the console go away but when testing on my mobile if swiping down it would refresh the page. After some googling I came across the "preventDefault" method, but this could only be used on active listeners, which stops this default behaviour. I decided to check if the swipe was detected on the canvas and then preventing the default behaviour. This worked, but then chrome continued to complain about active listeners.
-
-Using features of HTML 5 which may not be supported natively  by browsers. Led me to the discovery of "polyfills", ultimately pointing me towards Modernizr. 
-
-Modernizr is a library that tests for browser support of certain HTML 5 / CSS 3 features.
-
-It can then load in a polyfill if it detects that the browser doesn't natively support those features.
-
-I was going to use the polyfill [http://jscolor.com/](http://jscolor.com/) for the input type color (as recommended by the w3s validator). However, due to the way chrome now handles  touch events (used by JSColor) it got to be too difficult for me to correct. Instead I have just presented the user with 5 preset colours they can choose from.
-
-Modules made testing in jasmine difficult, have to expose things to the window object.
-
-Didn't know how to test getting a context object from canvas rather than testing it isn't null
-
-Didn't plan the classes properly before coding, so lots of change to classes during production.
-
-One issue with the SnakeHead move function: I only updated the co-ordinate being changed y for up and down, x for left and right which meant that the other didn't update and so the snake's head moved differently to the body. Took me a frustratingly long time to work this out.
-
-The hide button didn't work on first click. Solved by reading: [https://stackoverflow.com/questions/28100979/button-does-not-work-on-the-first-click](https://stackoverflow.com/questions/28100979/button-does-not-work-on-the-first-click)
