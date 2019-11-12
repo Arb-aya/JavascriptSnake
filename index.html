@@ -19,8 +19,6 @@
         Code taken from:
         https://stackoverflow.com/questions/14521108/dynamically-load-js-inside-js
     -->
-
-
     <script>
         if (!Modernizr.canvas) {
             const script = document.createElement('script');
@@ -112,15 +110,14 @@
                     <div class="col-12 pt-2" id="snakeWrapAround">
                         <label for="wrapAround">Walls</label>
                         <input name="wrapAround" id="wrapAround" type="checkbox" onchange="toggleWrap()" checked>
-                        <span id="wallStatus"> Enabled </span>
+                        <span id="wallStatus"> On </span>
                     </div>
 
                     <div class="col-12 pt-2" id="snakeSounds">
-                        <label for="sound"><i class="fas fa-volume-up"><span class="sr-only"> Sound </span></i> </label>
-                        <input name="sounds" id="sounds" type="checkbox" onchange="toggleSound()" checked><span
-                            id="soundStatus">Enabled</span>
+                        <label for="sound"><i id="soundIcon" class="fas fa-volume-up" onClick="toggleSound()">
+                                <span class="sr-only"> Sound </span></i> </label>
+                        <span class="sr-only" id="soundStatus">On</span>
                     </div>
-
                 </div>
             </div>
             <!-- ./SETTINGS-->

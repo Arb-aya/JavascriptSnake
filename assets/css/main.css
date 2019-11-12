@@ -12,6 +12,11 @@ body {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+/*     ---------------------- Fontawesome Icons */
+i{
+    font-size: 1.5rem;
+}
+
 /*     ---------------------- HEADER and NAVBAR */
 
 .headerText {
@@ -65,10 +70,12 @@ canvas {
     background-color: #ffffff;
 }
 
-#toggleGame {
+#toggleGame{
     background-color: #001B28;
     color: #F0F760;
     border: 0.07143rem solid #F0F760;
+    font-size: 1.143rem;
+    width: 50%;
 }
 
 /*     ------------------------------------ SETTINGS */

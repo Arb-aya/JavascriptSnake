@@ -49,11 +49,11 @@ window.toggleSettings = function () {
 window.toggleWrap = function () {
     wrapAround = !document.getElementById('wrapAround').checked;
 
-    if(wrapAround){
-        document.getElementById("wallStatus").innerText = "Disabled";
+    if (wrapAround) {
+        document.getElementById("wallStatus").innerText = "Off";
     }
-    else{
-        document.getElementById("wallStatus").innerText = "Enabled";
+    else {
+        document.getElementById("wallStatus").innerText = "On";
 
     }
 }
@@ -62,8 +62,21 @@ window.toggleWrap = function () {
  * Called when the user wants to enable / disable sound in the game
  */
 window.toggleSound = function () {
-    soundsEnabled = document.getElementById('sounds').checked;
-    document.getElementById('soundStatus').innerHTML = (soundsEnabled) ? "Enabled" : "Disabled";
+    let textEl = document.getElementById('soundStatus');
+    let iconEl = document.getElementById('soundIcon');
+
+    if (textEl.innerText == "On") {
+        soundsEnabled = false;
+        textEl.innerText = "Off";
+        iconEl.classList.remove("fa-volume-up");
+        iconEl.classList.add("fa-volume-mute");
+    }
+    else {
+        soundsEnabled = true;
+        textEl.innerText = "On";
+        iconEl.classList.remove("fa-volume-mute");
+        iconEl.classList.add("fa-volume-up");
+    }
 }
 
 
