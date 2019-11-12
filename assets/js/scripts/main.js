@@ -1,9 +1,14 @@
-import classes_loaded, { GameStage, Food, Snake, HighscoreTable, Sound } from './game/classes.js';
+// import classes_loaded, { GameStage, Food, Snake, HighscoreTable, Sound } from './game/classes.js';
+import gamestage_loaded, { GameStage } from './game/gamestage.js';
+import snake_loaded, { Snake } from './game/snake.js';
+import food_loaded, { Food } from './game/food.js';
+import sound_loaded, { Sound } from './game/sound.js';
+import hs_loaded, { HighscoreTable } from './game/highscore.js';
 import input_loaded, { KeyMappings } from './controllers/input.js';
 
 //----------------------------- GLOBAL CONSTANTS / FUNCTIONS
 const INITIAL_HEIGHT = 300, INITIAL_WIDTH = 300;
-const filesLoaded = () => classes_loaded && input_loaded;
+const filesLoaded = () => gamestage_loaded && snake_loaded && food_loaded && sound_loaded && hs_loaded && input_loaded;
 
 /**
  * Does the snake wrap around the sides of the canvas?
@@ -354,7 +359,7 @@ document.onreadystatechange = function () {
              */
             function newRow(place, score) {
                 let style = (place % 2 === 0) ? "highscore-dark-bg" : "highscore-light-bg";
-        
+
                 return ` 
                             <div class="col-6 text-right ${style}"> ${place}.) </div> 
                             <div class="col-6 text-left ${style}"> ${score} </div> 
