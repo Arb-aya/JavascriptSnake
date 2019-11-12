@@ -43,6 +43,8 @@ i {
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.1rem;
+    -webkit-transition: all 0.35s ease;
+    -o-transition: all 0.35s ease;
     transition: all 0.35s ease;
     border-right: 0.07143rem solid #F0F760;
 }
@@ -153,21 +155,4 @@ h1, h2, h3, h4, h5 {
     color: #F0F760;
     font-weight: bold;
     font-size: 1.3rem;
-}
-
-/* 
- Code for counters taken from: 
- https://stackoverflow.com/questions/23610151/can-you-style-ordered-list-numbers
-*/
-
-#scoreTable>ol {
-    list-style: none;
-    counter-reset: item;
-}
-
-#scoreTable>ol>li {
-    counter-increment: item;
-    list-style-position: outside;
-    margin-bottom: 0.3571rem;
-    font-weight: bold;
 }
