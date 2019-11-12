@@ -14,13 +14,25 @@ export class GameStage {
      * @param {number} height Height of canvas
      */
     constructor(width, height) {
-        //Create and insert canvas to index.html
-        this._canvas = document.createElement("canvas");
-        this._canvas.setAttribute('id', 'gameCanvas');
-        this._canvas.height = height;
-        this._canvas.width = width;
 
-        document.getElementById("gameStage").appendChild(this._canvas);
+        /**
+         * Check to see if gameCanvas already exists, if it does 
+         * reference that. Otherwise create the canvas.
+         */
+        let el = document.getElementById('gameCanvas');
+        if (!el) {
+            //Create and insert canvas to index.html
+            this._canvas = document.createElement("canvas");
+            this._canvas.setAttribute('id', 'gameCanvas');
+            this._canvas.height = height;
+            this._canvas.width = width;
+
+            document.getElementById("gameStage").appendChild(this._canvas);
+        } 
+        else {
+            this._canvas = el;
+        }
+
 
         this._context = this._canvas.getContext("2d");
 
