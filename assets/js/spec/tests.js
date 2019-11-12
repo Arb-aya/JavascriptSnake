@@ -1,5 +1,8 @@
-import classes_loaded, { GameStage, Snake, Food, HighscoreTable } from "../scripts/game/classes.js";
-import input_loaded, { KeyMappings } from "../scripts/controllers/input.js";
+import gamestage_loaded, { GameStage } from '../scripts/game/gamestage.js';
+import snake_loaded, { Snake } from '../scripts/game/snake.js';
+import food_loaded, { Food } from '../scripts/game/food.js';
+import hs_loaded, { HighscoreTable } from '../scripts/game/highscore.js';
+import input_loaded, { KeyMappings } from '../scripts/controllers/input.js';
 
 
 // --------------------------------------- GameStage Tests
@@ -345,9 +348,9 @@ describe("Snake", function () {
 
         it("Should have a y of 0 if snake's y is greater than canvas height and wrap around is enabled", function () {
             snake.y = 300;
-            snake.move("LEFT"); 
+            snake.move("LEFT");
             snake.move("DOWN");
-            snake = wrapAroundLogic(snake,true);
+            snake = wrapAroundLogic(snake, true);
             expect(snake.y).toBe(0);
         });
 
