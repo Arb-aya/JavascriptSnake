@@ -343,7 +343,9 @@ document.onreadystatechange = function () {
             function displayScores(scores) {
                 let table = document.getElementById('scoreTable');
 
-                table.innerHTML = "<h2> High scores: </h2>";
+                table.innerHTML = `<div class="col-12">
+                                        <h2> High scores: </h2>
+                                    </div>`;
 
                 if (Array.isArray(scores) && scores.length > 0) {
                     scores.forEach(function (score, index) {
