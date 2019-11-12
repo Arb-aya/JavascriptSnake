@@ -7,33 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Milestone 2 Project</title>
 
-
-    <!-- MainLoop JS-->
-    <script src="assets/js/libs/mainloop.js"></script>
-
-    <!-- Modernizr -->
-    <script src="assets/js/libs/modernizr.js"></script>
-
-    <!--
-        If the browser doesn't support canvases load in a polyfil "explorercanvas"
-        Code taken from:
-        https://stackoverflow.com/questions/14521108/dynamically-load-js-inside-js
-    -->
-
-
-    <script>
-        if (!Modernizr.canvas) {
-            const script = document.createElement('script');
-            script.onload = function () {
-
-            };
-            script.src = "assets/js/libs/excanvas.js";
-            document.head.appendChild(script);
-        }
-    </script>
-
-
-
     <!-- FONTAWESOME -->
     <script src="https://kit.fontawesome.com/4c578b24ae.js" crossorigin="anonymous"></script>
 
@@ -42,9 +15,6 @@
 
     <!-- SITE CSS -->
     <link rel="stylesheet" href="assets/css/main.css" />
-
-    <!-- Site Scripts -->
-    <script src="assets/js/scripts/main.js" type="module"></script>
 
 </head>
 
