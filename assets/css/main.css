@@ -141,6 +141,20 @@ h1, h2, h3, h4, h5 {
 
 /*     ------------------------------------ HIGHSCORE */
 
+.highscore-light-bg {
+    background: #F0F760;
+    color: #001B28;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.highscore-dark-bg {
+    background: #001B28;
+    color: #F0F760;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
 /* 
  Code for counters taken from: 
  https://stackoverflow.com/questions/23610151/can-you-style-ordered-list-numbers
@@ -156,17 +170,4 @@ h1, h2, h3, h4, h5 {
     list-style-position: outside;
     margin-bottom: 0.3571rem;
     font-weight: bold;
-}
-
-#scoreTable>ol>li:before {
-    margin-right: 0.7143rem;
-    content: counter(item);
-    background: #F0F760;
-    border-radius: 50%;
-    color: #001B28;
-    width: 2rem;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.3rem;
-    display: inline-block;
 }
