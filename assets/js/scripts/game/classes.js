@@ -28,7 +28,7 @@ export class GameStage {
             this._canvas.width = width;
 
             document.getElementById("gameStage").appendChild(this._canvas);
-        } 
+        }
         else {
             this._canvas = el;
         }
@@ -602,15 +602,7 @@ export class HighscoreTable {
      * Return the the scores as an ordered list
      */
     getScoresList() {
-        let returnString = "<ol>";
-
-        this._scores.forEach(function (score) {
-            returnString += `<li> ${score} </li>`;
-        });
-
-        returnString += "</ol>";
-
-        return returnString;
+        return this._scores;
     }
 
 }

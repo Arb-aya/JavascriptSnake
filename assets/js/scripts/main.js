@@ -250,7 +250,7 @@ document.onreadystatechange = function () {
                 MainLoop.stop();
                 highscores.add(gameStage.score);
 
-                document.getElementById('scoreTable').innerHTML = `<h2>High scores:</h2> ${highscores.getScoresList()}`;
+                displayScores(highscores.getScoresList());
                 document.getElementById('toggleGame').innerText = "NEW GAME";
             }
 
@@ -329,6 +329,38 @@ document.onreadystatechange = function () {
              * how fast the snake moves
              */
             MainLoop.setSimulationTimestep(90);
+
+
+            /**
+             * Displays scores array formatted in bootstrap rows.
+             * @param {Array.number} scores 
+             */
+            function displayScores(scores) {
+                let table = document.getElementById('scoreTable');
+
+                table.innerHTML = "<h2> High scores: </h2>";
+
+                if (Array.isArray(scores) && scores.length > 0) {
+                    scores.forEach(function (score, index) {
+                        table.innerHTML += newRow(index + 1, score);
+                    });
+                }
+            }
+
+            /**
+             * returns the data formatted in two bootstrap cols
+             * @param {number} place  
+             * @param {number} score 
+             */
+            function newRow(place, score) {
+                let style = (place % 2 === 0) ? "highscore-dark-bg" : "highscore-light-bg";
+        
+                return ` 
+                            <div class="col-6 text-right ${style}"> ${place}.) </div> 
+                            <div class="col-6 text-left ${style}"> ${score} </div> 
+                        `;
+            }
+
 
             /**
              * Event Listeners to capture:
