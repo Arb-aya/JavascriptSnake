@@ -7,6 +7,8 @@ After conversing with my mentor I had two viable options, pong or snake. I chose
 
 This site does not function on Internet Explorer as it uses ES6 features.
 
+You can view the deployed site here: [https://github.com/CDHayden/JavascriptSnake](https://github.com/CDHayden/JavascriptSnake)
+
 ## UX
 ### User stories
 
@@ -154,6 +156,8 @@ Canvas polyfill for if the users browser doesn't support the HTML 5 canvas.
 - [https://autoprefixer.github.io/](https://autoprefixer.github.io/) Used to add browser specific prefixes to my css.
 
 - [https://validator.w3.org/](https://validator.w3.org/) Used to validate the HTML of the site.
+
+-[https://realfavicongenerator.net](https://realfavicongenerator.net) Used to generate fav icons and code to use them.
 
 ## Testing
 
