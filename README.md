@@ -179,7 +179,7 @@ I have also tested the site in a number of different browsers (microsoft edge, g
 
 ### Bugs / Problems
 
-* **Handling Touch Events** - Whilst implementing touch event handlers, the google chrome console warned against of "active listeners". After reading up on this it was recommended to use passive event listeners for touch events. Using passive event listeners made the warning dissappear, but it meant that swiping down on mobile phones (to move the snake down) made the page refresh. After googling the problem I found I had to use the "preventDefault" method via an active listener for touchevents to stop this.
+* **Handling Touch Events** - Whilst implementing touch event handlers, the google chrome console warned against of "active listeners". After reading up on this it was recommended to use passive event listeners for touch events. Using passive event listeners made the warning dissappear, but it meant that swiping down on mobile phones (to move the snake down) made the page refresh. After googling the problem I found I had to use the "preventDefault" method via an active listener for touchevents to stop this, which means the violation warning has to simply be ignored in dev tools.
 
 * **ES6 Modules and testing Jasmine** - I found it difficult to test some elements of main.js. After reading up on the issue I found I had to explicilty expose functions and variables to the window object for Jasmine to be able to test them. 
 
