@@ -21,8 +21,8 @@ export class Food extends GameObject {
         super(0, 0, context, colour, size);
         this._canvasWidth = canvasWidth;
         this._canvasHeight = canvasHeight;
-        this.x = Food.getRandomPosition(0, this._canvasWidth, this._size)
-        this.y = Food.getRandomPosition(0, this._canvasHeight, this._size)
+        this.x = Food.getRandomPosition(0, this._canvasWidth, this._size);
+        this.y = Food.getRandomPosition(0, this._canvasHeight, this._size);
 
     }
 

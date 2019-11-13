@@ -159,6 +159,8 @@ Canvas polyfill for if the users browser doesn't support the HTML 5 canvas.
 
 -[https://realfavicongenerator.net](https://realfavicongenerator.net) Used to generate fav icons and code to use them.
 
+-[https://jshint.com/](https://jshint.com/) Used to check the JS code for errors.
+
 ## Testing
 
 Testing of the site was done manually and automatically throughout the development process. 
