@@ -7,7 +7,7 @@ After conversing with my mentor I had two viable options, pong or snake. I chose
 
 This site does not function on Internet Explorer as it uses ES6 features.
 
-You can view the deployed site here: [https://github.com/CDHayden/JavascriptSnake](https://github.com/CDHayden/JavascriptSnake)
+You can view the deployed site here: [https://cdhayden.github.io/JavascriptSnake/index.html](https://cdhayden.github.io/JavascriptSnake/index.html)
 
 ## UX
 ### User stories
@@ -194,8 +194,7 @@ Whilst these two lines of code seem stupid, they do fix this issue. I'm not so s
 
 ## Deployment
 
-You can view the deployed site here: [https://github.com/CDHayden/JavascriptSnake](https://github.com/CDHayden/JavascriptSnake)
-
+You can view the deployed site here: [https://cdhayden.github.io/JavascriptSnake/index.html](https://cdhayden.github.io/JavascriptSnake/index.html)
 ### How was the site deployed
 
 To deploy thsi site my local git repository was pushed to a github repository and then hosted on github pages.
