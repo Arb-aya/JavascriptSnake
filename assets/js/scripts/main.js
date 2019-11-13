@@ -44,7 +44,7 @@ window.toggleSettings = function () {
         settings.style.display = "none";
         document.getElementById("settingsVisibilityText").innerHTML = 'Show Settings <i class="fas fa-caret-down">';
     }
-}
+};
 
 
 /**
@@ -70,7 +70,7 @@ window.toggleWrap = function () {
         iconEl.classList.remove('red');
         iconEl.classList.add('green');
     }
-}
+};
 
 /**
  * Called when the user wants to enable / disable sound in the game
@@ -95,7 +95,7 @@ window.toggleSound = function () {
         iconEl.classList.remove('red');
         iconEl.classList.add('green');
     }
-}
+};
 
 
 
@@ -233,7 +233,7 @@ document.onreadystatechange = function () {
                         MainLoop.start();
                         break;
                 }
-            }
+            };
 
             /**
              * Called when the user clicks a button to update the Snake's colour
@@ -243,12 +243,12 @@ document.onreadystatechange = function () {
                 if (typeof snake !== "undefined") {
                     snake.colour = colour;
                 }
-            }
+            };
 
             /**
              * Called when the player dies.
              */
-            function endGame() {
+            var endGame = function () {
                 if (canPlayAudio()) {
                     gameoverSound.play();
                 }
@@ -257,12 +257,12 @@ document.onreadystatechange = function () {
 
                 displayScores(highscores.getScoresList());
                 document.getElementById('toggleGame').innerText = "NEW GAME";
-            }
+            };
 
             /**
              * Called when we start a new game
              */
-            function newGame() {
+            var newGame = function () {
                 gameStage.resetScore();
                 snake = new Snake(200, 200, gameStage.context);
                 snake.colour = selectedColour;
@@ -272,7 +272,7 @@ document.onreadystatechange = function () {
                     gamestartSound.play();
                 }
                 MainLoop.start();
-            }
+            };
 
             /**
              * Check to see if the snake x and y location are less than 0 
@@ -326,7 +326,7 @@ document.onreadystatechange = function () {
                 }
 
                 return snake;
-            }
+            };
 
 
             /**
@@ -340,7 +340,7 @@ document.onreadystatechange = function () {
              * Displays scores array formatted in bootstrap rows.
              * @param {Array.number} scores 
              */
-            function displayScores(scores) {
+            var displayScores = function (scores) {
                 let table = document.getElementById('scoreTable');
 
                 table.innerHTML = `<div class="col-12">
@@ -352,21 +352,21 @@ document.onreadystatechange = function () {
                         table.innerHTML += newRow(index + 1, score);
                     });
                 }
-            }
+            };
 
             /**
              * returns the data formatted in two bootstrap cols
              * @param {number} place  
              * @param {number} score 
              */
-            function newRow(place, score) {
+            var newRow = function (place, score) {
                 let style = (place % 2 === 0) ? "highscore-dark-bg" : "highscore-light-bg";
 
                 return ` 
                             <div class="col-6 text-right ${style}"> ${place}.) </div> 
                             <div class="col-6 text-left ${style}"> ${score} </div> 
                         `;
-            }
+            };
 
 
             /**
@@ -422,4 +422,4 @@ document.onreadystatechange = function () {
             console.log("Error loading files");
         }
     }
-}
+};
